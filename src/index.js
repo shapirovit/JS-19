@@ -111,9 +111,8 @@ function bindFunction(fn, ...arr) {
     return () => fn.apply(null, arr);
 } */
 
-
 function bindFunction(fn, ...arr) {  
-  return () => fn.call(null, ...arr);
+    return () => fn.call(null, ...arr);
 }
 
 export {
