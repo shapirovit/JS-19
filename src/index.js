@@ -21,7 +21,7 @@ function forEach(array, fn) {
 function map(array, fn) {
     var newArray = array;
     for (let i=0; i<array.length; i++) {
-        newArray[newArray.length+1] = fn(array[i], i, array);
+        newArray[i] = fn(array[i], i, array);
     }
     return newArray;
 }
