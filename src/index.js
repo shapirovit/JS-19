@@ -42,6 +42,7 @@ function reduce(array, fn, initial) {
     
     while (i < array.length) {
         result = fn(result, array[i], i, array);
+        i++;
     }
 
     return result;
