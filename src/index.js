@@ -108,7 +108,7 @@ return arr;
 } */
 
 function bindFunction(fn, ...arr) {  
-  return fn.apply(null, arr);
+  return () => fn.apply(null, arr);
 }
 
 export {
