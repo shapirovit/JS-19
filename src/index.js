@@ -19,6 +19,10 @@ function forEach(array, fn) {
  Посмотрите как работает map и повторите это поведение для массива, который будет передан в параметре array
  */
 function map(array, fn) {
+    for (let i=0; i<array.length; i++) {
+        array[i] = fn(array[i]);
+    }
+    return array;
 }
 
 /*
