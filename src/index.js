@@ -59,7 +59,9 @@ function upperProps(obj) {
     let array = [];
 
     for (let prop in obj) {
-        array.push(prop.toUpperCase());
+        if (obj.hasOwnProperty(prop)) {
+            array.push(prop.toUpperCase());
+        }
     }
 
     return array;
@@ -88,28 +90,28 @@ function upperProps(obj) {
 
 function slice(array, from = 0, to = array.length) {
     let newArray = [];
-    
+
     if (from >= 0) {
         if (to >= 0) {
             for (let i = from; i < to; i++) {
-              newArray.push(array[i]);        
+                newArray.push(array[i]);        
             }
         } else {
-              for (let i = from; i < array.length + to; i++) {
+            for (let i = from; i < array.length + to; i++) {
                 newArray.push(array[i]);
-              }
-          }
-    } else {
-          if (to >= 0) {
-              for (let i = array.length + from; i < to; i++) {
-                  newArray.push(array[i]);
-              }
-          } else {
-                for (let i = array.length + from; i < array.length + to; i++) {
-                    newArray.push(array[i]);
-                }
             }
-      }
+        }
+    } else {
+        if (to >= 0) {
+            for (let i = array.length + from; i < to; i++) {
+                newArray.push(array[i]);
+            }
+        } else {
+            for (let i = array.length + from; i < array.length + to; i++) {
+                newArray.push(array[i]);
+            }
+        }
+    }
         
     return newArray;
 }
