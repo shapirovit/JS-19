@@ -135,5 +135,5 @@ export {
     reduce,
     upperProps,
     slice,
-    createProxy
+//    createProxy
 };
