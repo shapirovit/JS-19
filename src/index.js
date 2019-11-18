@@ -12,7 +12,7 @@
 
  Другими словами: функция должна возвращать в неизменном виде то, что поступает ей на вход
  */
-function returnFirstArgument(param) {
+function returnFirstArgument(param = 0) {
     return param;
 }
 
@@ -108,7 +108,7 @@ return arr;
 } */
 
 function bindFunction(fn, ...arr) {  
-  return () => fn.apply(null, arr);
+    return () => fn.apply(null, arr);
 }
 
 export {
