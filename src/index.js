@@ -58,7 +58,7 @@ function reduce(array, fn, initial) {
 function upperProps(obj) {
     let array = [];
 
-    for (prop in obj) {
+    for (let prop in obj) {
         array.push(prop.toUpperCase());
     }
 
@@ -87,30 +87,31 @@ function upperProps(obj) {
 } */
 
 function slice(array, from = 0, to = array.length) {
-  let newArray = [];
-  if (from >= 0) {
-      if (to >= 0) {
-          for (let i = from; i < to; i++) {
-            newArray.push(array[i]);        
-          }
-      } else {
-            for (let i = from; i < array.length + to; i++) {
-              newArray.push(array[i]);
-            }
-        }
-  } else {
+    let newArray = [];
+    
+    if (from >= 0) {
         if (to >= 0) {
-            for (let i = array.length + from; i < to; i++) {
-                newArray.push(array[i]);
+            for (let i = from; i < to; i++) {
+              newArray.push(array[i]);        
             }
         } else {
-              for (let i = array.length + from; i < array.length + to; i++) {
-                  newArray.push(array[i]);
+              for (let i = from; i < array.length + to; i++) {
+                newArray.push(array[i]);
               }
           }
-    }
-      
-  return newArray;
+    } else {
+          if (to >= 0) {
+              for (let i = array.length + from; i < to; i++) {
+                  newArray.push(array[i]);
+              }
+          } else {
+                for (let i = array.length + from; i < array.length + to; i++) {
+                    newArray.push(array[i]);
+                }
+            }
+      }
+        
+    return newArray;
 }
 
 /*
