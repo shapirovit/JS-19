@@ -34,6 +34,12 @@ function map(array, fn) {
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
 function reduce(array, fn, initial) {
+    let i = 0;
+    let result = initial;
+    while (i < array.length) {
+        result = fn(result, array[i], i, array);
+    }
+    return result;
 }
 
 /*
