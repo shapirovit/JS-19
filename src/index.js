@@ -124,9 +124,9 @@ function slice(array, from = 0, to = array.length) {
  */
 
 /* function createProxy(obj) {
-    /* for (let props in obj) {
+    for (let props in obj) {
         if (obj[props] =
-    } */
+    }
 } */
 
 export {
