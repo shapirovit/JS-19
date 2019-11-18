@@ -59,9 +59,8 @@ function returnFnResult(fn) {
  console.log(f()); // выведет 12
  console.log(f()); // выведет 13
 */
-function returnCounter(number = 0) {
-  return function F() {
-      return ++number;
+function returnCounter(number) {
+  return () => ++number;
   }
 }
 
@@ -99,11 +98,15 @@ return arr;
 
  console.log(newSum()) выведет 6
 */
-function bindFunction(fn, ...arr) {
+/* function bindFunction(fn, ...arr) {
   return function() {
       return fn(...arr);
   }
+}
+ */
 
+function bindFunction(fn, ...arr) {  
+    return fn.bind(null, ...arr);
 }
 
 export {
