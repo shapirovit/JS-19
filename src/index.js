@@ -12,7 +12,7 @@
 
  Другими словами: функция должна возвращать в неизменном виде то, что поступает ей на вход
  */
-function returnFirstArgument(param = 0) {
+function returnFirstArgument(param) {
     return param;
 }
 
@@ -59,7 +59,7 @@ function returnFnResult(fn) {
  console.log(f()); // выведет 12
  console.log(f()); // выведет 13
 */
-function returnCounter(number) {
+function returnCounter(number = 0) {
     return () => ++number;
 }
 
