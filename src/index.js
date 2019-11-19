@@ -38,6 +38,7 @@ function map(array, fn) {
  */
 function reduce(array, fn, initial) {
     let i, result;
+    
     if (initial) {
         i = 0;
         result = initial;
