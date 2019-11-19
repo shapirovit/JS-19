@@ -98,10 +98,20 @@ function upperProps(obj) {
 
 function slice(array, from = 0, to = array.length) {
     let newArray = [];
-
+    
+    if (from > array.length) {
+        from = array.length;
+    }
+    if (from < 0 && from + array.length < 0) {
+        from = 0;
+    }
     if (to > array.length) {
         to = array.length;
     }
+    if (to < 0 && to + array.length < 0) {
+        to = 0;
+    }
+
     if (from >= 0) {
         if (to >= 0) {
             for (let i = from; i < to; i++) {
