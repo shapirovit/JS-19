@@ -19,12 +19,10 @@ function forEach(array, fn) {
  Посмотрите как работает map и повторите это поведение для массива, который будет передан в параметре array
  */
 function map(array, fn) {
-    var newArray = array.slice();
+    let newArray = [];
 
-    for (let i=0; i<array.length; i++) {
-        let item = array[i];
-        
-        newArray[i] = fn(item, i, array);
+    for (let i=0; i<array.length; i++) {        
+        newArray[i] = fn(array[i], i, array);
     }
 
     return newArray;
@@ -47,9 +45,7 @@ function reduce(array, fn, initial) {
         result = array[0];
     }    
     while (i < array.length) {
-        let item = array[i];
-
-        result = fn(result, item, i, array);
+        result = fn(result, array[i], i, array);
         i++;
     }
 
@@ -84,40 +80,35 @@ function upperProps(obj) {
  */
 function slice(array, from = 0, to = array.length) {
     let newArray = [];
+    let first, last;
     
     if (from > array.length) {
-        from = array.length;
+        first = array.length;
     }
     if (from < 0 && from + array.length < 0) {
-        from = 0;
+        first = 0;
     }
     if (to > array.length) {
-        to = array.length;
+        last = array.length;
     }
     if (to < 0 && to + array.length < 0) {
-        to = 0;
+        last = 0;
     }
 
     if (from >= 0) {
-        if (to >= 0) {
-            for (let i = from; i < to; i++) {
-                newArray.push(array[i]);        
-            }
-        } else {
-            for (let i = from; i < array.length + to; i++) {
-                newArray.push(array[i]);
-            }
-        }
+        if (to < 0) {
+            last = array.length + to;            
+        }        
     } else {
         if (to >= 0) {
-            for (let i = array.length + from; i < to; i++) {
-                newArray.push(array[i]);
-            }
+            first = array.length + from;
         } else {
-            for (let i = array.length + from; i < array.length + to; i++) {
-                newArray.push(array[i]);
-            }
+            first = array.length + from;
+            last = array.length + to;
         }
+    }
+    for (let i = first; i < last; i++) {
+        newArray.push(array[i]);        
     }
         
     return newArray;
