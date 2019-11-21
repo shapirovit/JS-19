@@ -82,31 +82,16 @@ function slice(array, from = 0, to = array.length) {
     let newArray = [];
     let first = from;
     let last = to;
-    
-    if (from > array.length) {
-        first = array.length;
-    }
-    if (from < 0 && from + array.length < 0) {
-        first = 0;
-    }
-    if (to > array.length) {
-        last = array.length;
-    }
-    if (to < 0 && to + array.length < 0) {
-        last = 0;
-    }
 
-    if (from >= 0) {
-        if (to < 0) {
-            last = array.length + to;            
-        }        
+    if (from < 0) {
+        first = (from + array.length > 0) ? from + array.length : 0;
     } else {
-        if (to >= 0) {
-            first = array.length + from;
-        } else {
-            first = array.length + from;
-            last = array.length + to;
-        }
+        first = (from > array.length) ? array.length : from;
+    }
+    if (to < 0) {
+        last = (to + array.length > 0) ? to + array.length : 0;
+    } else {
+        last = (to > array.length) ? array.length : to;
     }
     for (let i = first; i < last; i++) {
         newArray.push(array[i]);        
