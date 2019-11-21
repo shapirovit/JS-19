@@ -80,7 +80,8 @@ function upperProps(obj) {
  */
 function slice(array, from = 0, to = array.length) {
     let newArray = [];
-    let first, last;
+    let first = from;
+    let last = to;
     
     if (from > array.length) {
         first = array.length;
