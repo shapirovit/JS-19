@@ -60,7 +60,7 @@ function isSomeTrue(array, fn) {
         if (fn(array[i])) {
 
             return true;
-        }        
+        }
     }
 
     return false;
