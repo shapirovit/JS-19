@@ -114,7 +114,53 @@ function returnBadArguments(fn) {
    - number не является числом (с текстом "number is not a number")
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
-function calculator() {
+function calculator(number = 0) {
+    if (typeof number !== "number" || isNaN(number) || number === Infinity || number === -Infinity) {
+        throw new Error("number is not a number");
+    }    
+    let obj = {
+        sum() {
+            let result = number;
+
+            for (let i = 0; i < arguments.length; i++) {
+                result += array[i];                
+            }
+
+            return result;
+        },
+        dif() {
+            let result = number;
+
+            for (let i = 0; i < arguments.length; i++) {
+                result -= array[i];                
+            }
+
+            return result;
+        },
+        div() {
+            let result = number;
+
+            for (let i = 0; i < arguments.length; i++) {
+                if (array[i] = 0 ) {
+                    throw new Error("division by 0");
+                }
+                result /= array[i];                
+            }
+
+            return result;
+        },
+        mul() {
+            let result = number;
+
+            for (let i = 0; i < arguments.length; i++) {
+                result *= array[i];                
+            }
+
+            return result;
+        }
+    }
+
+    return obj;
 }
 
 /* При решении задач, пострайтесь использовать отладчик */
