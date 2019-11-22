@@ -18,10 +18,10 @@
  */
 function isAllTrue(array, fn) {
     if (array.length === 0 || !Array.isArray(array)) {
-        throw new Error("empty array");
+        throw new Error('empty array');
     }
-    if (typeof fn !== "function") {
-        throw new Error("fn is not a function");
+    if (typeof fn !== 'function') {
+        throw new Error('fn is not a function');
     }
     for (let i=0; i<array.length; i++) {
         if (!fn(array[i])) {
@@ -51,10 +51,10 @@ function isAllTrue(array, fn) {
  */
 function isSomeTrue(array, fn) {
     if (array.length === 0 || !Array.isArray(array)) {
-        throw new Error("empty array");
+        throw new Error('empty array');
     }
-    if (typeof fn !== "function") {
-        throw new Error("fn is not a function");
+    if (typeof fn !== 'function') {
+        throw new Error('fn is not a function');
     }
     for (let i = 0; i < array.length; i++) {
         if (fn(array[i])) {
@@ -78,8 +78,8 @@ function isSomeTrue(array, fn) {
    - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
-    if (typeof fn !== "function") {
-        throw new Error("fn is not a function");
+    if (typeof fn !== 'function') {
+        throw new Error('fn is not a function');
     }
     let i=1;
     let arrFnError = [];
@@ -115,8 +115,8 @@ function returnBadArguments(fn) {
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
 function calculator(number = 0) {
-    if (typeof number !== "number" || isNaN(number) || number === Infinity || number === -Infinity) {
-        throw new Error("number is not a number");
+    if (typeof number !== 'number' || isNaN(number) || number === Infinity || number === -Infinity) {
+        throw new Error('number is not a number');
     }    
     let obj = {
         sum() {
@@ -142,7 +142,7 @@ function calculator(number = 0) {
 
             for (let i = 0; i < arguments.length; i++) {
                 if (arguments[i] === 0 ) {
-                    throw new Error("division by 0");
+                    throw new Error('division by 0');
                 }
                 result /= arguments[i];                
             }
