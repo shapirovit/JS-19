@@ -141,7 +141,7 @@ function calculator(number = 0) {
             let result = number;
 
             for (let i = 0; i < arguments.length; i++) {
-                if (array[i] = 0 ) {
+                if (arguments[i] = 0 ) {
                     throw new Error("division by 0");
                 }
                 result /= arguments[i];                
