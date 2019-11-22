@@ -123,7 +123,7 @@ function calculator(number = 0) {
             let result = number;
 
             for (let i = 0; i < arguments.length; i++) {
-                result += array[i];                
+                result += arguments[i];                
             }
 
             return result;
@@ -132,7 +132,7 @@ function calculator(number = 0) {
             let result = number;
 
             for (let i = 0; i < arguments.length; i++) {
-                result -= array[i];                
+                result -= arguments[i];                
             }
 
             return result;
@@ -144,7 +144,7 @@ function calculator(number = 0) {
                 if (array[i] = 0 ) {
                     throw new Error("division by 0");
                 }
-                result /= array[i];                
+                result /= arguments[i];                
             }
 
             return result;
@@ -153,7 +153,7 @@ function calculator(number = 0) {
             let result = number;
 
             for (let i = 0; i < arguments.length; i++) {
-                result *= array[i];                
+                result *= arguments[i];                
             }
 
             return result;
