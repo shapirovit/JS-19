@@ -88,7 +88,7 @@ function returnBadArguments(fn) {
         try {            
             fn(arguments[i]);
             i++;
-        } catch {
+        } catch (e) {
             arrFnError.push(arguments[i]);
             i++;    
         }
