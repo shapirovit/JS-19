@@ -233,7 +233,7 @@ function observeChildNodes(where, fn) {
             }
             if (mutation.addedNodes) {
                 argsFn.type = 'insert';
-                argsFn.nodes = mutation.addedNodes;
+                argsFn.nodes = Array.isArray(mutation.addedNodes);
                 fn(argsFn);
             }
 
