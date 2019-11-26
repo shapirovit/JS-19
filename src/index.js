@@ -224,7 +224,7 @@ function collectDOMStat(root) {
  */
 function observeChildNodes(where, fn) {
     let argsFn = {};
-    let observer = new MultationObserver(mutations => {
+    let observer = new MutationObserver(mutations => {
         for (mutation of mutations) {
             if (mutation.removedNodes) {
                 argsFn.type = 'remove';
