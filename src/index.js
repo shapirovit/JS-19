@@ -11,7 +11,7 @@
    createDivWithText('loftschool') // создаст элемент div, поместит в него 'loftschool' и вернет созданный элемент
  */
 function createDivWithText(text) {
-    let addDiv = document.createElement("div");
+    let addDiv = document.createElement('div');
 
     addDiv.textContent = text;
 
@@ -55,7 +55,7 @@ function findAllPSiblings(where) {
 
     for (let i = 0; i < arrChildren.length; i++) {
         if (arrChildren[i].nextElementSibling) {
-            if (arrChildren[i].nextElementSibling.tagName === "P") {
+            if (arrChildren[i].nextElementSibling.tagName === 'P') {
                 arr.push(arrChildren[i]);
             }
         }
@@ -164,6 +164,7 @@ function collectDOMStat(root) {
     function innerFunc(subRoot) {
         for (let i = 0; i < subRoot.childNodes.length; i++) {
             let child = subRoot.childNodes[i];
+
             if (child.nodeType === 3) {
                 resultObj.texts++;
             } else {
@@ -224,8 +225,8 @@ function collectDOMStat(root) {
  */
 function observeChildNodes(where, fn) {
     let argsFn = {
-      type: 'no change',
-      nodes: []
+        type: 'no change',
+        nodes: []
     };
     let observer = new MutationObserver(mutations => {
         for (let mutation of mutations) {
@@ -239,15 +240,15 @@ function observeChildNodes(where, fn) {
             }
         }
         if (argsFn.type !== 'no change') {
-          fn(argsFn);
+            fn(argsFn);
         }
     });
   
     observer.observe(where, {
         childList: true,
         subtree: true
-      });
-  }
+    });
+}
 
 export {
     createDivWithText,
