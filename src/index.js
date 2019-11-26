@@ -223,28 +223,31 @@ function collectDOMStat(root) {
    }
  */
 function observeChildNodes(where, fn) {
-    let argsFn = {};
+    let argsFn = {
+      type: 'no change',
+      nodes: []
+    };
     let observer = new MutationObserver(mutations => {
         for (let mutation of mutations) {
-            if (mutation.removedNodes) {
+            for (let node of mutation.removedNodes) {
                 argsFn.type = 'remove';
-                argsFn.nodes = mutation.removedNodes;
-                fn(argsFn);
+                argsFn.nodes.push(node);                
             }
-            if (mutation.addedNodes) {
+            for (let node of mutation.addedNodes) {
                 argsFn.type = 'insert';
-                argsFn.nodes = Array.isArray(mutation.addedNodes);
-                fn(argsFn);
+                argsFn.nodes.push(node);                
             }
-
+        }
+        if (argsFn.type !== 'no change') {
+          fn(argsFn);
         }
     });
-
+  
     observer.observe(where, {
         childList: true,
         subtree: true
       });
-}
+  }
 
 export {
     createDivWithText,
