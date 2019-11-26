@@ -167,9 +167,18 @@ function collectDOMStat(root) {
             if (child.nodeType === 3) {
                 resultObj.texts++;
             } else {
-                resultObj.tags[child.tagName] += 1;
+                if (resultObj.tags[child.tagName]) {
+                    resultObj.tags[child.tagName] += 1;
+                } else {
+                    resultObj.tags[child.tagName] = 1;
+                }                
                 for (let j = 0; j < child.classList.length; j++) {
-                    resultObj.classes[child.classList[j]] += 1;
+                    if (resultObj.classes[child.classList[j]]) {
+                        resultObj.classes[child.classList[j]] += 1;                        
+                    } else {
+                        resultObj.classes[child.classList[j]] = 1;
+                    }
+                    
                 }                
                 innerFunc(subRoot.childNodes[i]);
             }
