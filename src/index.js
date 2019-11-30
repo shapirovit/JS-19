@@ -79,18 +79,13 @@ function delegate(target, fn) {
 // Короткий способ:   target.addEventListener('click', fn, {once: true});
 // Длинный способ ниже:
 function once(target, fn) {
-    let num = 0;
-    let func = () => {
-        fn();
-        num = 1;
-    };
-
-    target.addEventListener('click', func);
-    document.addEventListener('click', () => {
-        if (num === 1) {
-            target.removeEventListener('click', func);
-        };
-    });
+    let obj = {
+        handleEvent(event) {
+            fn();
+            target.removeEventListener('click', this);
+        }
+    }
+    target.addEventListener('click', obj);
 }
 
 export {
