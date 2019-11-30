@@ -61,7 +61,7 @@ function emulateClick(target) {
  */
 function delegate(target, fn) {
     target.addEventListener('click', e => {
-        if (e.target.tagName === "BUTTON") {
+        if (e.target.tagName === 'BUTTON') {
             fn();
         }
     });
@@ -76,9 +76,9 @@ function delegate(target, fn) {
  Пример:
    once(document.querySelector('button'), () => console.log('обработчик выполнился!')) // добавит такой обработчик кликов для указанного элемента, который вызовется только один раз и затем удалится
  */
-function once(target, fn) {
-//    target.addEventListener('click', fn, {once: true});
+// Короткий способ:   target.addEventListener('click', fn, {once: true});
 // Длинный способ ниже:
+function once(target, fn) {
     let num = 0;
     let func = () => {
         fn();
@@ -86,9 +86,9 @@ function once(target, fn) {
     };
 
     target.addEventListener('click', func);
-    if (num) {
+    if (num === 1) {
         target.removeEventListener('click', func);
-    }
+    };
 }
 
 export {
