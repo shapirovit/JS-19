@@ -80,11 +80,12 @@ function delegate(target, fn) {
 // Длинный способ ниже:
 function once(target, fn) {
     let obj = {
-        handleEvent(event) {
+        handleEvent() {
             fn();
             target.removeEventListener('click', this);
         }
     }
+
     target.addEventListener('click', obj);
 }
 
