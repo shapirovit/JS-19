@@ -86,9 +86,11 @@ function once(target, fn) {
     };
 
     target.addEventListener('click', func);
-    if (num === 1) {
-        target.removeEventListener('click', func);
-    };
+    document.addEventListener('click', () => {
+        if (num === 1) {
+            target.removeEventListener('click', func);
+        };
+    });
 }
 
 export {
