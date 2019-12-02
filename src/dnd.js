@@ -27,7 +27,20 @@ const homeworkContainer = document.querySelector('#homework-container');
    homeworkContainer.appendChild(newDiv);
  */
 function createDiv() {
+    let newDiv = document.createElement('div');
+    let color = 'background-color';
+
+    newDiv.classList.add('draggable-div');
+    newDiv.style.height = Math.round( Math.random() * document.documentElement.clientHeight / 2) + 'px';
+    newDiv.style.width = Math.round( Math.random() * document.documentElement.clientWidth / 2) + 'px';
+    newDiv.style[color] = '#' + (Math.random().toString(16) + '000000').substring(2,8).toUpperCase();
+    newDiv.style.position = 'absolute';
+    newDiv.style.top = Math.round( Math.random() * document.documentElement.clientHeight / 2) + 'px';
+    newDiv.style.left = Math.round( Math.random() * document.documentElement.clientWidth / 2) + 'px';
+
+    return newDiv;
 }
+
 
 /*
  Функция должна добавлять обработчики событий для перетаскивания элемента при помощи drag and drop
@@ -38,6 +51,24 @@ function createDiv() {
    addListeners(newDiv);
  */
 function addListeners(target) {
+    target.addEventListener('mousedown', e=> {
+        let shiftX = e.clientX - target.getBoundingClientRect().left;
+        let shiftY = e.clientY - target.getBoundingClientRect().top;
+
+        target.style.zIndex = 1000;
+        function moveDiv(e) {
+            target.style.left = e.clientX - shiftX + 'px';
+            target.style.top = e.clientY - shiftY + 'px';
+        }
+        document.addEventListener('mousemove', moveDiv);
+        target.addEventListener('mouseup', {
+            handleEvent() {
+                document.removeEventListener('mousemove', moveDiv);
+                target.removeEventListener('click', this);
+                target.style.zIndex = 0;
+          }
+        });        
+    })
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
@@ -54,6 +85,6 @@ addDivButton.addEventListener('click', function() {
     // или использовать HTML5 D&D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
 });
 
-export {
+/* export {
     createDiv
-};
+}; */
