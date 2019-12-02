@@ -33,14 +33,13 @@ function createDiv() {
     newDiv.classList.add('draggable-div');
     newDiv.style.height = Math.round( Math.random() * document.documentElement.clientHeight / 2) + 'px';
     newDiv.style.width = Math.round( Math.random() * document.documentElement.clientWidth / 2) + 'px';
-    newDiv.style[color] = '#' + (Math.random().toString(16) + '000000').substring(2,8).toUpperCase();
+    newDiv.style[color] = '#' + (Math.random().toString(16) + '000000').substring(2, 8).toUpperCase();
     newDiv.style.position = 'absolute';
     newDiv.style.top = Math.round( Math.random() * document.documentElement.clientHeight / 2) + 'px';
     newDiv.style.left = Math.round( Math.random() * document.documentElement.clientWidth / 2) + 'px';
 
     return newDiv;
 }
-
 
 /*
  Функция должна добавлять обработчики событий для перетаскивания элемента при помощи drag and drop
@@ -66,7 +65,7 @@ function addListeners(target) {
                 document.removeEventListener('mousemove', moveDiv);
                 target.removeEventListener('click', this);
                 target.style.zIndex = 0;
-          }
+            }
         });        
     })
 }
@@ -85,6 +84,6 @@ addDivButton.addEventListener('click', function() {
     // или использовать HTML5 D&D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
 });
 
-/* export {
+export {
     createDiv
-}; */
+};
