@@ -10,7 +10,9 @@
  */
 function delayPromise(seconds) {
     let promise = new Promise((resolve) => {
-        setTimeout(() => resolve, seconds);
+        setTimeout(() => {
+          resolve()
+        }, seconds);
     });
 
     return promise;
