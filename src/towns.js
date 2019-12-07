@@ -94,7 +94,7 @@ const filterResult = homeworkContainer.querySelector('#filter-result');
 
 filterInput.addEventListener('keyup', function() {
     filterResult.innerHTML = "";
-    if (filterInput.value) {
+    if (filterInput.value === "") {
         filterResult.innerHTML = "";
     } else {
         let keyTown = filterInput.value;
@@ -102,7 +102,7 @@ filterInput.addEventListener('keyup', function() {
         for (let i = 0; i < arrTowns.length; i++) {
             if (isMatching(arrTowns[i].name, keyTown)) {
                 const div = document.createElement('div');
-                
+
                 div.textContent = arrTowns[i].name;
                 filterResult.append(div);
             }
