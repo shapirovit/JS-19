@@ -50,12 +50,12 @@ function loadTowns() {
     return new Promise(resolve => {
         fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
             .then(response => {
-            if (response.status >= 400) {
+                if (response.status >= 400) {
 
-                return Promise.reject();
-            }
+                    return Promise.reject();
+                }
 
-            return response.json();
+                return response.json();
             })
             .then(json => {
                 json.sort((a, b) => a.name > b.name ? 1 : -1);
