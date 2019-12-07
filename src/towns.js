@@ -31,6 +31,15 @@
  */
 const homeworkContainer = document.querySelector('#homework-container');
 
+/* Блок с надписью "Загрузка" */
+const loadingBlock = homeworkContainer.querySelector('#loading-block');
+/* Блок с текстовым полем и результатом поиска */
+const filterBlock = homeworkContainer.querySelector('#filter-block');
+/* Текстовое поле для поиска по городам */
+const filterInput = homeworkContainer.querySelector('#filter-input');
+/* Блок с результатами поиска */
+const filterResult = homeworkContainer.querySelector('#filter-result');
+
 /*
  Функция должна вернуть Promise, который должен быть разрешен с массивом городов в качестве значения
 
@@ -70,7 +79,7 @@ loadTowns().then(towns => {
  */
 function isMatching(full, chunk) {
     let arrSub = [];
-    
+
     full = full.toLowerCase();
     chunk = chunk.toLowerCase();
     for (let i=0; i<full.length; i++) {
@@ -87,15 +96,6 @@ function isMatching(full, chunk) {
 
     return false;
 }
-
-/* Блок с надписью "Загрузка" */
-const loadingBlock = homeworkContainer.querySelector('#loading-block');
-/* Блок с текстовым полем и результатом поиска */
-const filterBlock = homeworkContainer.querySelector('#filter-block');
-/* Текстовое поле для поиска по городам */
-const filterInput = homeworkContainer.querySelector('#filter-input');
-/* Блок с результатами поиска */
-const filterResult = homeworkContainer.querySelector('#filter-result');
 
 filterInput.addEventListener('keyup', function() {
     filterResult.innerHTML = '';
