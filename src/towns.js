@@ -48,6 +48,11 @@ function loadTowns() {
   });
 }
 
+let arrTowns;
+let load = loadTowns().then(towns => {
+    arrTowns = towns;
+});
+
 /*
  Функция должна проверять встречается ли подстрока chunk в строке full
  Проверка должна происходить без учета регистра символов
@@ -88,6 +93,16 @@ const filterInput = homeworkContainer.querySelector('#filter-input');
 const filterResult = homeworkContainer.querySelector('#filter-result');
 
 filterInput.addEventListener('keyup', function() {
+    let keyTown = filterInput.value;
+    for (let i = 0; i < arrTowns.length; i++) {
+        if (isMatching(arrTowns[i].name, keyTown)) {
+            const div = document.createElement('div');
+            div.textContent = arrTowns[i].name;
+            filterResult.append(div);
+        }
+      
+    }
+
     // это обработчик нажатия кливиш в текстовом поле
 });
 
