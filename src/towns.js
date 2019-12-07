@@ -48,12 +48,31 @@ const filterResult = homeworkContainer.querySelector('#filter-result');
  */
 function loadTowns() {
     return new Promise(resolve => {
-        fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(response => {
-            response.json().then(json => {
+        fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
+            .then(response => {
+            if (response.status >= 400) {
+
+                return Promise.reject();
+            }
+
+            return response.json();
+            })
+            .then(json => {
                 json.sort((a, b) => a.name > b.name ? 1 : -1);
                 resolve(json);
-            });
-        });
+            })
+            .catch(() => {
+                const div = document.createElement('div');
+                const button = document.createElement('button');
+
+                loadingBlock.style = 'display: none;';
+                div.textContent = 'Не удалось загрузить города';
+                button.textContent = 'Повторить';
+                div.append(button);
+                homeworkContainer.append(div);
+                button.addEventListener('click', loadTowns);
+
+            })
     });
 }
 
