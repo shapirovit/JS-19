@@ -38,12 +38,12 @@ module.exports = {
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
             title: 'Main Homework',
-            template: 'towns.hbs',
+            template: './src/towns.hbs',
             chunks: ['main']
         }),
         new HtmlPlugin({
             title: 'Div Drag And Drop',
-            template: 'towns.hbs',
+            template: './src/towns.hbs',
             filename: 'towns.html',
             chunks: ['dnd']
         }),
