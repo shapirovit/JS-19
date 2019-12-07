@@ -72,7 +72,7 @@ function loadTowns() {
                 div.append(button);
                 homeworkContainer.append(div);
                 button.addEventListener('click', () => {
-                    homeworkContainer.remove(div);
+                    homeworkContainer.removeChild(div);
                     loadingBlock.style = '';
                     loadTowns().then(towns => {
                         arrTowns = towns;
