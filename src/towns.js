@@ -39,6 +39,7 @@ const filterBlock = homeworkContainer.querySelector('#filter-block');
 const filterInput = homeworkContainer.querySelector('#filter-input');
 /* Блок с результатами поиска */
 const filterResult = homeworkContainer.querySelector('#filter-result');
+let arrTowns;
 
 /*
  Функция должна вернуть Promise, который должен быть разрешен с массивом городов в качестве значения
@@ -72,15 +73,17 @@ function loadTowns() {
                 homeworkContainer.append(div);
                 button.addEventListener('click', () => {
                     homeworkContainer.remove(div);
-                    loadTowns();
                     loadingBlock.style = '';
+                    loadTowns().then(towns => {
+                        arrTowns = towns;
+                        filterBlock.style = '';
+                        loadingBlock.style = 'display: none;';
+                    });                    
                 });
 
-            })
+            });
     });
 }
-
-let arrTowns;
 
 filterBlock.style = 'display: none;';
 loadTowns().then(towns => {
