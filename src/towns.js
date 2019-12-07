@@ -39,12 +39,12 @@ const homeworkContainer = document.querySelector('#homework-container');
  */
 function loadTowns() {
     return new Promise(resolve => {
-      filterBlock.style = 'display: none;';
+      //filterBlock.style = 'display: none;';
       fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(response => {
           response.json().then(json => {
               json.sort((a,b) => a.name > b.name ? 1 : -1);
-              filterBlock.style = '';
-              loadingBlock.style = 'display: none;';
+            //  filterBlock.style = '';
+            //  loadingBlock.style = 'display: none;';
               resolve(json);
           });
       });
