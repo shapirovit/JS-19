@@ -66,11 +66,15 @@ function loadTowns() {
                 const button = document.createElement('button');
 
                 loadingBlock.style = 'display: none;';
-                div.textContent = 'Не удалось загрузить города';
+                div.textContent = 'Не удалось загрузить города ';
                 button.textContent = 'Повторить';
                 div.append(button);
                 homeworkContainer.append(div);
-                button.addEventListener('click', loadTowns);
+                button.addEventListener('click', () => {
+                    homeworkContainer.remove(div);
+                    loadTowns();
+                    loadingBlock.style = '';
+                });
 
             })
     });
