@@ -38,8 +38,10 @@ const homeworkContainer = document.querySelector('#homework-container');
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
  */
 function loadTowns() {
-    loadAndSortTowns();
+
 }
+
+loadTowns = loadAndSortTowns;
 
 /*
  Функция должна проверять встречается ли подстрока chunk в строке full
