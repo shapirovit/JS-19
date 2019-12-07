@@ -48,7 +48,7 @@ const filterResult = homeworkContainer.querySelector('#filter-result');
  */
 function loadTowns() {
     return new Promise(resolve => {
-        fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
+        fetch('https://raw654.githubusercontent.com/smelukov/citiesTest/master/cities.json')
             .then(response => {
                 if (response.status >= 400) {
 
