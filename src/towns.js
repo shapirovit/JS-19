@@ -1,4 +1,4 @@
-import loadAndSortTowns from '../src/index';
+// import loadAndSortTowns from '../src/index';
 /*
  Страница должна предварительно загрузить список городов из
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
@@ -39,21 +39,22 @@ const homeworkContainer = document.querySelector('#homework-container');
  */
 function loadTowns() {
     return new Promise(resolve => {
-      //filterBlock.style = 'display: none;';
-      fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(response => {
-          response.json().then(json => {
-              json.sort((a,b) => a.name > b.name ? 1 : -1);
-            //  filterBlock.style = '';
-            //  loadingBlock.style = 'display: none;';
-              resolve(json);
-          });
-      });
-  });
+        fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(response => {
+            response.json().then(json => {
+                json.sort((a,b) => a.name > b.name ? 1 : -1);
+                resolve(json);
+            });
+        });
+    });
 }
 
 let arrTowns;
-let load = loadTowns().then(towns => {
+
+filterBlock.style = 'display: none;';
+loadTowns().then(towns => {
     arrTowns = towns;
+    filterBlock.style = '';
+    loadingBlock.style = 'display: none;';
 });
 
 /*
@@ -73,7 +74,7 @@ function isMatching(full, chunk) {
     chunk = chunk.toLowerCase();
     for (let i=0; i<full.length; i++) {
         for (let j=i+1;j<full.length+1; j++) {
-            arrSub.push(full.slice(i,j));
+            arrSub.push(full.slice(i, j));
         }
     }
     for (let i = 0; i < arrSub.length; i++) {
@@ -96,9 +97,9 @@ const filterInput = homeworkContainer.querySelector('#filter-input');
 const filterResult = homeworkContainer.querySelector('#filter-result');
 
 filterInput.addEventListener('keyup', function() {
-    filterResult.innerHTML = "";
-    if (filterInput.value === "") {
-        filterResult.innerHTML = "";
+    filterResult.innerHTML = '';
+    if (filterInput.value === '') {
+        filterResult.innerHTML = '';
     } else {
         let keyTown = filterInput.value;
 
