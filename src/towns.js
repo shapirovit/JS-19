@@ -41,7 +41,7 @@ function loadTowns() {
     return new Promise(resolve => {
         fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(response => {
             response.json().then(json => {
-                json.sort((a,b) => a.name > b.name ? 1 : -1);
+                json.sort((a, b) => a.name > b.name ? 1 : -1);
                 resolve(json);
             });
         });
@@ -70,6 +70,7 @@ loadTowns().then(towns => {
  */
 function isMatching(full, chunk) {
     let arrSub = [];
+    
     full = full.toLowerCase();
     chunk = chunk.toLowerCase();
     for (let i=0; i<full.length; i++) {
