@@ -57,7 +57,7 @@ function isMatching(full, chunk) {
     full = full.toLowerCase();
     chunk = chunk.toLowerCase();
     for (let i=0; i<full.length; i++) {
-        for (let j=i+1;j<full.length; j++) {
+        for (let j=i+1;j<full.length+1; j++) {
             arrSub.push(full.slice(i,j));
         }
     }
@@ -65,11 +65,10 @@ function isMatching(full, chunk) {
         if (arrSub[i] === chunk) {
 
             return true;
-        } else {
-          
-            return false;
-        }      
+        }
     }
+
+    return false;
 }
 
 /* Блок с надписью "Загрузка" */
