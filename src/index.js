@@ -35,12 +35,10 @@ function loadAndSortTowns() {
         fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json').then(response => {
             response.json().then(json => {
                 json.sort((a,b) => a.name > b.name ? 1 : -1);
-                resolve();
+                resolve(json);
             });
-        })
-
+        });
     });
-    
 }
 
 export {
