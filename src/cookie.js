@@ -44,7 +44,8 @@ const addButton = homeworkContainer.querySelector('#add-button');
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 let parsCookie = function() {
-    document.cookie.split('; ').reduce( (prev, current) => {
+    
+    return document.cookie.split('; ').reduce( (prev, current) => {
         let [name, value] = current.split('=');
         prev[name] = value;
 
