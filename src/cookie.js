@@ -110,7 +110,9 @@ filterNameInput.addEventListener('keyup', function() {
 });
 
 addButton.addEventListener('click', () => {
+    let event = new Event("click");
+    
     document.cookie = `${addNameInput.value}=${addValueInput.value}`;
-    filterNameInput.keyup();
+    filterNameInput.dispatchEvent(event);
     // здесь можно обработать нажатие на кнопку "добавить cookie"
 });
