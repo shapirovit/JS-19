@@ -47,6 +47,7 @@ let parsCookie = function() {
 
     return document.cookie.split('; ').reduce( (prev, current) => {
         let [name, value] = current.split('=');
+
         prev[name] = value;
 
         return prev;
@@ -80,7 +81,7 @@ let subStr = function(str, substr) {
 
     for (let i = 0; i < str.length; i++) {
         for (let j = i+1; j < str.length+1; j++) {
-            arrStr.push(str.slice(i,j));          
+            arrStr.push(str.slice(i, j));          
         }
     }
     for (let i = 0; i < arrStr.length; i++) {
@@ -100,13 +101,17 @@ filterNameInput.addEventListener('keyup', function() {
     listTable.innerHTML = '';
     if (value === '') {        
         for (let name in pars) {
-            printCookie(name, pars[name]);
+            if (pars.hasOwnProperty(name)) {
+                printCookie(name, pars[name]);
+            }            
         }
     } else {
         for (let name in pars) {
-            if (subStr(name, value) || subStr(pars[name], value)) {
-                printCookie(name, pars[name]);
-            }
+            if (pars.hasOwnProperty(name)) {
+                if (subStr(name, value) || subStr(pars[name], value)) {
+                    printCookie(name, pars[name]);
+                }
+            }            
         }
     }
     // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
