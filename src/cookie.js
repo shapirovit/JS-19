@@ -44,7 +44,7 @@ const addButton = homeworkContainer.querySelector('#add-button');
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 let parsCookie = function() {
-    
+
     return document.cookie.split('; ').reduce( (prev, current) => {
         let [name, value] = current.split('=');
         prev[name] = value;
@@ -63,6 +63,7 @@ let printCookie = function(name, value) {
     tdName.innerText = name;
     tdValue.innerText = value;
     button.innerText = 'удалить';
+    tdButton.append(button);
     tr.append(tdName);
     tr.append(tdValue);
     tr.append(tdButton);
@@ -96,12 +97,13 @@ filterNameInput.addEventListener('keyup', function() {
     let pars = parsCookie();
     let value = filterNameInput.value;
 
+    listTable.innerHTML = '';
     if (value === '') {        
-        for (let name of pars) {
+        for (let name in pars) {
             printCookie(name, pars[name]);
         }
     } else {
-        for (let name of pars) {
+        for (let name in pars) {
             if (subStr(name, value) || subStr(pars[name], value)) {
                 printCookie(name, pars[name]);
             }
@@ -113,7 +115,10 @@ filterNameInput.addEventListener('keyup', function() {
 addButton.addEventListener('click', () => {
     let event = new Event('keyup');
 
+    listTable.innerHTML = '';
     document.cookie = `${addNameInput.value}=${addValueInput.value}`;
+    addNameInput.value = '';
+    addValueInput.value = '';
     filterNameInput.dispatchEvent(event);
     // здесь можно обработать нажатие на кнопку "добавить cookie"
 });
