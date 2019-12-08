@@ -15,7 +15,6 @@ rules.push({
 
 module.exports = {
     entry: {
-        main: './src/index.js',
         cookie: './src/cookie.js'
     },
     devServer: {
@@ -36,11 +35,6 @@ module.exports = {
             }
         }), */
         new ExtractTextPlugin('styles.css'),
-        new HtmlPlugin({
-            title: 'Main Homework',
-            template: './src/cookie.hbs',
-            chunks: ['main']
-        }),
         new HtmlPlugin({
             title: 'Cookie',
             template: './src/cookie.hbs',
