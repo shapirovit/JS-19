@@ -122,8 +122,8 @@ addButton.addEventListener('click', () => {
 
     listTable.innerHTML = '';
     document.cookie = `${addNameInput.value}=${addValueInput.value}`;
-    addNameInput.value = '';
-    addValueInput.value = '';
+    // addNameInput.value = '';
+    // addValueInput.value = '';
     filterNameInput.dispatchEvent(event);
     // здесь можно обработать нажатие на кнопку "добавить cookie"
 });
