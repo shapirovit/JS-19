@@ -1,4 +1,4 @@
-import { loadAndSortTowns as loadTowns} from '../src/index';
+// import { loadAndSortTowns as loadTowns} from '../src/index';
 /*
  Страница должна предварительно загрузить список городов из
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
@@ -47,7 +47,7 @@ let arrTowns;
  Массив городов пожно получить отправив асинхронный запрос по адресу
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
  */
-/* function loadTowns() {
+function loadTowns() {
     return new Promise(resolve => {
         fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
             .then(response => {
@@ -74,23 +74,23 @@ let arrTowns;
                 button.addEventListener('click', () => {
                     homeworkContainer.removeChild(div);
                     loadingBlock.style = '';
-                    loadTowns().then(towns => {
-                        arrTowns = towns;
-                        filterBlock.style = '';
-                        loadingBlock.style = 'display: none;';
-                    });                    
+                    loadRun();                    
                 });
 
             });
     });
-} */
+}
+
+function loadRun() {
+    loadTowns().then(towns => {
+        arrTowns = towns;
+        filterBlock.style = '';
+        loadingBlock.style = 'display: none;';
+    });
+}
 
 filterBlock.style = 'display: none;';
-loadTowns().then(towns => {
-    arrTowns = towns;
-    filterBlock.style = '';
-    loadingBlock.style = 'display: none;';
-});
+loadRun();
 
 /*
  Функция должна проверять встречается ли подстрока chunk в строке full
