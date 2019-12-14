@@ -1,7 +1,12 @@
-ymaps.ready(init);
-function init() {
-    var myMap = new ymaps.Map('map', {
-        center: [55.51333737, 36.98777203],
-        zoom: 17
-    })
-};
+function mapInit() {
+    umaps.ready(() => {
+        let moscowMap = new ymaps.Map('map', {
+            center: [55.7, 37.6],
+            zoom: 17
+        });
+    });
+}
+
+export {
+    mapInit
+}
