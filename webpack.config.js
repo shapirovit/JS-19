@@ -2,6 +2,7 @@ let webpack = require('webpack');
 let HtmlPlugin = require('html-webpack-plugin');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 let rules = require('./webpack.config.rules');
 let path = require('path');
 
@@ -15,11 +16,11 @@ rules.push({
 
 module.exports = {
     entry: {
-        main: './src/index.js',
-        towns: './src/towns.js'
+        index: './src/index.js',
     },
     devServer: {
-        index: 'towns.html'
+        index: 'index.html',
+        overlay: true
     },
     output: {
         filename: '[name].[hash].js',
@@ -27,7 +28,23 @@ module.exports = {
     },
     devtool: 'source-map',
     module: { rules },
+    optimization: {
+        minimizer: [
+            // we specify a custom UglifyJsPlugin here to get
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,
+                uglifyOptions: {
+                    compress: false,
+                    ecma: 6,
+                    mangle: true
+                },
+                sourceMap: true
+            })
+        ]
+    },
     plugins: [
+        
 /*         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
             compress: {
@@ -37,15 +54,8 @@ module.exports = {
         }), */
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-            title: 'Main Homework',
-            template: './src/towns.hbs',
-            chunks: ['main']
-        }),
-        new HtmlPlugin({
-            title: 'Towns',
-            template: './src/towns.hbs',
-            filename: 'towns.html',
-            chunks: ['towns']
+            title: 'GeoFeedback',
+            template: 'index.hbs'
         }),
         new CleanWebpackPlugin(['dist'])
     ]

@@ -1,7 +1,3 @@
-ymaps.ready(init);
-function init() {
-    var myMap = new ymaps.Map('map', {
-        center: [55.51, 36.98],
-        zoom: 12
-    })
-};
+import { mapInit as map } from './js/ymaps';
+
+window.onload = map();
