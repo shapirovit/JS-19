@@ -1,4 +1,4 @@
-// import { createPlacemark as placemarkAdd } from '../js/geo-elements';
+/* // import { createPlacemark as placemarkAdd } from '../js/geo-elements';
 
 function mapInit() {
     ymaps.ready(() => {
@@ -197,4 +197,4 @@ function mapInit() {
 
 export {
     mapInit
-}
+} */

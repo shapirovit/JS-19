@@ -1,0 +1,84 @@
+{{!-- <div id="map" style="width: 100%; height: 100vh"></div>
+
+{{> './form.hbs'}} --}}
+
+<div class="block-left">
+    <div class="block-avatar">
+        <!-- <a href="" class="block-avatar-foto-choice"><img src="./img/nophoto.jpg" class="block-avatar-foto"></a> -->
+        <a href="" class="block-avatar-foto-choice">
+            <img src="./img/nophoto.jpg" class="block-avatar-foto">
+        </a>
+
+        <p class="block-avatar-name">Добро пожаловать!</p>
+    </div>
+    
+    <div class="block-participants">
+        <p class="block-participants-text-count">Участники</p>
+        <!-- <p class="block-participants-text-person">Иван Петрович</p> -->
+    </div>
+</div>
+
+<div class="block-right">
+    <div class="block-right-top">
+        <form class="form-block">
+            <h4 class="form-block-text">Авторизация</h4>
+            <div class="form-block-inner">                
+                <input class="form-block-input" type="text" placeholder="ФИО">
+                <input class="form-block-input" type="text" placeholder="Ник">
+                <button class="form-block-button">Войти</button>
+            </div>
+        </form>
+
+        <form class="form-loadFoto">
+            <h4 class="form-loadFoto-text">Загрузка фото</h4>
+            <div class="form-loadFoto-inner">
+
+                <a href="" class="form-loadFoto-inner-placeDrop">
+                    <img src="" class="form-loadFoto-inner-placeDrop-foto">
+                    <div class="form-loadFoto-inner-placeDrop-text">перетащите сюда фото</div>
+                </a>
+
+                <button class="form-loadFoto-inner-button-cancel">Отмена</button>
+                <button class="form-loadFoto-inner-button-load">Загрузить</button>
+            </div>
+        </form>
+
+        <div class="block-right-message">
+            <div class="block-right-message-fotoblock">
+                <img src="./img/nophoto.jpg" class="block-right-message-foto">
+            </div>
+
+            <div class="block-right-message-top">
+                <div class="block-right-message-top-name">Иван Петров</div>
+                <time class="block-right-message-top-time">13:42</time>
+            </div>
+
+            <div class="block-right-message-bottom">
+                <div class="block-right-message-bottom-text">Привет!</div>
+            </div>
+
+        </div>
+
+        <div class="block-right-message">
+            <div class="block-right-message-fotoblock">
+                <img src="./img/nophoto.jpg" class="block-right-message-foto">
+            </div>
+
+            <div class="block-right-message-top">
+                <div class="block-right-message-top-name">Иван Петров</div>
+                <time class="block-right-message-top-time">13:42</time>
+            </div>
+
+            <div class="block-right-message-bottom">
+                <div class="block-right-message-bottom-text">И тебе привет!</div>
+            </div>
+
+        </div>
+
+    </div>
+    
+    <div class="block-right-bottom">
+        <input class="form-message-input" type="text" placeholder="Введите сообщение">
+        <button class="form-message-button">Отправить</button>            
+    </div>        
+</div>

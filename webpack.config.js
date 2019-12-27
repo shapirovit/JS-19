@@ -54,7 +54,7 @@ module.exports = {
         }), */
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
-            title: 'GeoFeedback',
+            title: 'Socket Chat',
             template: 'index.hbs'
         }),
         new CleanWebpackPlugin(['dist'])
