@@ -39,6 +39,6 @@
   },
   "repository": "git@github.com:shapirovit/JS-19.git",
   "devDependencies": {
-    "@babel/preset-env": "^7.7.6"
+    "@babel/preset-env": "^7.7.7"
   }
 }
