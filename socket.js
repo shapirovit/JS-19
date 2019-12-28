@@ -1,18 +1,15 @@
-/* import { mapInit as map } from './js/ymaps';
-
-window.onload = map(); */
-
-
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
 app.get('/', function(req, res){
-  res.sendFile('C:/Users/A8-7050/Desktop/JS-project/index.hbs');
+  res.sendFile(__dirname + 'index.html');
 });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });
 });
 
 http.listen(8080, function(){

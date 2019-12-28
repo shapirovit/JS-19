@@ -1,3 +1,37 @@
+var socket = io();
+
+function submit() {
+    var socket = io();
+    let input = document.querySelector('#m');
+    let button = document.querySelector('button');
+    button.addEventListener('click', e => {
+        e.preventDefault();
+        console.log('input.value=', input.value);
+        socket.emit('chat message', input.value);
+        input.value = '';
+        return false;
+    });
+    socket.on('chat message', msg => {
+        let message = document.querySelector('#message');
+        let li = document.createElement('li');
+        li.textContent = msg;
+        message.append(li);
+    });
+};
+submit();
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* // import { createPlacemark as placemarkAdd } from '../js/geo-elements';
 
 function mapInit() {
