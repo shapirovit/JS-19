@@ -1,8 +1,17 @@
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-button {  height: 0px; }
+::-webkit-scrollbar-track-piece { background-color: rgb(204, 255, 199);}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
+
 html, body {
     width: 100%;
     height: 100%;
     padding: 0;
     margin: 0;
+}
+
+.hidden {
+    display: none;
 }
 
 .block-left {
@@ -29,6 +38,7 @@ html, body {
     height: 90%;
     overflow-y: scroll;
     margin-top: 20px;
+    position: relative;
 }
 
 
@@ -162,7 +172,6 @@ html, body {
 
 .block-participants {
     height: 80%;
-    display: none;
 }
 
 .block-participants-text-count {
@@ -186,7 +195,6 @@ html, body {
     max-width: 80%;
     position: relative;
     padding: 10px;
-    display: none;
 }
 
 .block-right-message-fotoblock {
@@ -244,22 +252,24 @@ html, body {
 4. Область перемещения фото
 5. Кнопка "Отмена"
 6. Кнопка "Загрузить"
- */
+*/
 
- .form-loadFoto {
+.form-loadFoto {
     width: 360px;
-    height: 340px;
+    height: 350px;
     background-color: rgb(214, 217, 219);
     border-radius: 10px;
     margin-left: 20%;
-    position: relative;
-    display: none;
+    position: absolute;
+    top: 10px;
+    z-index: 10;
+
 }
 
 .form-loadFoto-text {
     color: #555;
     font-weight: 500;
-    padding: 15px 5px 0px 15px;
+    padding: 0px 5px 0px 15px;
 }
 
 .form-loadFoto-inner {
@@ -281,25 +291,25 @@ html, body {
     margin: auto;
     position: relative;
     display: block;
- }
+}
 
- .form-loadFoto-inner-placeDrop-foto {
+.form-loadFoto-inner-placeDrop-foto {
     width: auto;
     height: 100%;
     margin: 0 auto;
     position: absolute;
     left: -25%;
     /* display: none; */
- }
+}
 
- .form-loadFoto-inner-placeDrop-text {
+.form-loadFoto-inner-placeDrop-text {
     margin: auto;
     font-size: 18px;
     font-weight: 900;
     position: absolute;
     top: 45%;
     margin-left: 7px;
- }
+}
 
 
 .form-loadFoto-inner-button-cancel {
@@ -332,209 +342,4 @@ html, body {
     display: inline-block;
     margin-top: 10px;
     box-sizing: border-box;
-}
-
-
-
-/* ////////////////////////////////////////// */
-
-
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-button {  height: 0px; }
-::-webkit-scrollbar-track-piece { background-color: rgb(204, 255, 199);}
-::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
-
-.modalForm {
-    display: none;
-}
-
-.modalActive {
-    display: block;
-    position: absolute;
-}
-
-#formFeedback {
-    position: absolute;
-    width: 379px;
-    height: 527px;
-    background-color: white;
-    border-radius: 10px;
-
-/*     width: 380px;
-    height: 530px;
-    padding: 5px;
-    margin: 0;     */
-}
-
-#headerAdress {
-    display: block;
-    background-color: #ff8563;
-    border-radius: 10px 10px 0 0;
-    color: white;
-    min-height: 44px;
-    font-size: 20px;
-    line-height: 17px;
-    position: relative;
-}
-
-/* img {
-    position: absolute;
-    width: 8px;
-    height: 14px;
-    top: 14px;
-    padding-left: 15px;
-} */
-
-#adressText {
-    width: 90%;
-    font-size: 12px;
-    font-weight: 300;
-    color: #fff;
-    padding-left: 30px;
-    position: absolute;
-    top: 12px
-}
-
-.close {
-    position: absolute;
-    right: 26px;
-    top: 20px;
-}
-
-.close::before {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 4px;
-    border-radius: 6px;
-    background-color: #fff;
-    transform: rotate(40deg);
-}
-
-.close::after {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 4px;
-    border-radius: 6px;
-    background-color: #fff;
-    transform: rotate(-40deg);
-}
-
-#historyFeedback {
-    border-bottom: 1px solid rgba(0, 0, 0, .3);
-    height: 138px;
-    overflow-y: scroll;
-    margin: 5px 5px 5px 15px ;
-}
-
-.historyFeedback__box {
-    margin-bottom: 16px;
-    color: rgba(79, 79, 79, .75);
-}
-
-.historyFeedback__box:last-child {
-    margin-bottom: 0;
-}
-
-.historyFeedback__box strong {
-    color: rgba(79, 79, 79, .75);
-    font-weight: bold;
-}
-
-time {
-    color: rgba(79, 79, 79, .75);
-    font-size: 16px;
-    font-weight: 400;
-}
-
-/* .historyFeedback__box span {
-    display: block;
-    color: rgb(79, 79, 79);
-    font-size: 15px;
-    margin-top: 10px;
-} */
-
-#textBefore {
-    color: #ff8563;
-    font-weight: 500;
-    text-transform: uppercase;
-    margin-bottom: 25px;
-    margin: 10px 5px 5px 15px ;
-    padding-left: 10px;
-/*     display: block;
-    font-size: 10px;
-    line-height: 17px;
-    padding: 5px;     */
-}
-
-#nameInput, #placeInput {
-    background-color: #fff;
-    border: 1px solid rgb(196, 196, 196);
-    line-height: 34px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    padding-left: 15px;
-    margin: 5px 5px 5px 15px ;
-    width: 80%;
-    color: #282828;
-    font-size: 15px;
-    font-weight: 300;
-/*     display: block;
-    width: 90%;
-    font-size: 10px;
-    line-height: 17px;
-    padding: 5px;
-    margin: 5px;    */ 
-}
-
-#feedbackInput {
-    background-color: #fff;
-    border: 1px solid rgb(196, 196, 196);
-    line-height: 34px;
-    border-radius: 20px;
-    padding-left: 15px;
-    margin: 5px 5px 5px 15px ;
-    width: 80%;
-    color: #282828;
-    font-size: 15px;
-    font-weight: 300;
-    min-height: 151px;
-    min-width: 80%;
-    max-width: 80%;
-    max-height: 151px;
-    
-/*     height: 60px;
-    width: 90%;
-    padding: 5px;
-    margin: 5px;     */
-}
-
-#addButton {
-
-    width: 87px;
-    height: 30px;
-    background-color: #ff8563;
-    border-radius: 10px;
-    color: white;
-    font-size: 12px;
-    font-weight: 300;
-
-    position: absolute;
-    right: 5%;
-    display: block;
-/*     position: absolute;
-    right: 10px;
-    bottom: 0;
-    background-color: #ff8563;
-    color: #ffffff;
-    font-size: 20px;
-    line-height: 17px;
-    padding: 5px; */
-}
-
-::placeholder {
-    color: #9f9f9f;
-    font-size: 15px;
-    font-weight: 300;
 }

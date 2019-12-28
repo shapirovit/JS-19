@@ -47,6 +47,7 @@
             height: 90%;
             overflow-y: scroll;
             margin-top: 20px;
+            position: relative;
         }
 
 
@@ -264,17 +265,20 @@
 
         .form-loadFoto {
             width: 360px;
-            height: 340px;
+            height: 350px;
             background-color: rgb(214, 217, 219);
             border-radius: 10px;
             margin-left: 20%;
-            position: relative;
+            position: absolute;
+            top: 10px;
+            z-index: 10;
+
         }
 
         .form-loadFoto-text {
             color: #555;
             font-weight: 500;
-            padding: 15px 5px 0px 15px;
+            padding: 0px 5px 0px 15px;
         }
 
         .form-loadFoto-inner {
@@ -561,9 +565,58 @@
                 renderParticipants(allClients);
             });
         }
+
+        function fotoLoad() {
+            let fotoChoice = document.querySelector('.block-avatar-foto-choice');
+            fotoChoice.addEventListener('click', e => {
+                e.preventDefault();
+                let formLoadFoto = document.querySelector('.form-loadFoto');
+                formLoadFoto.classList.remove('hidden');
+            })
+
+        }
+
+        function formFoto() {
+            let buttonCancel = document.querySelector('.form-loadFoto-inner-button-cancel');
+            let buttonLoad = document.querySelector('.form-loadFoto-inner-button-load');
+            let placeDrop = document.querySelector('.form-loadFoto-inner-placeDrop');
+
+            buttonCancel.addEventListener('click', e => {
+                e.preventDefault();
+                let formLoadFoto = document.querySelector('.form-loadFoto');
+                let placeDropFoto = document.querySelector('.form-loadFoto-inner-placeDrop-foto');
+
+                formLoadFoto.classList.add('hidden');
+                placeDropFoto.src = '';                
+            });
+
+            buttonLoad.addEventListener('click', e => {
+                e.preventDefault();
+
+
+            });
+
+            placeDrop.addEventListener('click', e => {
+                e.preventDefault();
+
+
+
+            })
+
+
+
+
+
+        }
+
+
+
+        
         authorization();
         submit();
         countParticipants();
+        fotoLoad();
+        formFoto();
     
     </script>
 </body>

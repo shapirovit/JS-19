@@ -1,19 +1,15 @@
-{{!-- <div id="map" style="width: 100%; height: 100vh"></div>
-
-{{> './form.hbs'}} --}}
-
 <div class="block-left">
-    <div class="block-avatar">
-        <!-- <a href="" class="block-avatar-foto-choice"><img src="./img/nophoto.jpg" class="block-avatar-foto"></a> -->
+    <div class="block-avatar hidden">
+        <!-- <a href="" class="block-avatar-foto-choice"><img src="../img/nophoto.jpg" class="block-avatar-foto"></a> -->
         <a href="" class="block-avatar-foto-choice">
-            <img src="./src/img/nophoto.jpg" class="block-avatar-foto">
+            <img src="" class="block-avatar-foto">
         </a>
 
         <p class="block-avatar-name">Добро пожаловать!</p>
     </div>
     
-    <div class="block-participants">
-        <p class="block-participants-text-count">Участники</p>
+    <div class="block-participants hidden">
+        <!-- <p class="block-participants-text-count hidden">Участники</p> -->
         <!-- <p class="block-participants-text-person">Иван Петрович</p> -->
     </div>
 </div>
@@ -23,13 +19,13 @@
         <form class="form-block">
             <h4 class="form-block-text">Авторизация</h4>
             <div class="form-block-inner">                
-                <input class="form-block-input" type="text" placeholder="ФИО">
-                <input class="form-block-input" type="text" placeholder="Ник">
+                <input id="name" class="form-block-input" type="text" placeholder="ФИО">
+                <input id="login" class="form-block-input" type="text" placeholder="Ник">
                 <button class="form-block-button">Войти</button>
             </div>
         </form>
 
-        <form class="form-loadFoto">
+        <form class="form-loadFoto hidden">
             <h4 class="form-loadFoto-text">Загрузка фото</h4>
             <div class="form-loadFoto-inner">
 
@@ -43,9 +39,9 @@
             </div>
         </form>
 
-        <div class="block-right-message">
+        <div class="block-right-message hidden">
             <div class="block-right-message-fotoblock">
-                <img src="./src/img/nophoto.jpg" class="block-right-message-foto">
+                <img src="" class="block-right-message-foto">
             </div>
 
             <div class="block-right-message-top">
@@ -59,9 +55,9 @@
 
         </div>
 
-        <div class="block-right-message">
+        <div class="block-right-message hidden">
             <div class="block-right-message-fotoblock">
-                <img src="./src/img/nophoto.jpg" class="block-right-message-foto">
+                <img src="" class="block-right-message-foto">
             </div>
 
             <div class="block-right-message-top">
@@ -77,7 +73,7 @@
 
     </div>
     
-    <div class="block-right-bottom">
+    <div class="block-right-bottom hidden">
         <input class="form-message-input" type="text" placeholder="Введите сообщение">
         <button class="form-message-button">Отправить</button>            
     </div>        
