@@ -1,6 +1,8 @@
 function Init() {
     // let socket = io();
-    const socket = io('http://localhost');  // ??? или let socket = io.connect('http://localhost:3000/'); 
+    //const socket = io('http://localhost:8080');  // ??? или let socket = io.connect('http://localhost:3000/'); 
+
+    let socket = io();
 
     function authorization() {
         let formBlock = document.querySelector('.form-block');
@@ -48,7 +50,7 @@ function Init() {
         /* return false; */
     }
 
-    function renderMessage(foto, name, time, msg) {
+    function renderMessage(id, foto, name, time, msg) {
         let rightTop = document.querySelector('.block-right-top');
         let blockMessage = document.createElement('div');
         let fotoblock = document.createElement('div');
@@ -69,6 +71,7 @@ function Init() {
         messageBlock.classList.add('block-right-message-bottom-text');
 
         imgBlock.src = foto;
+        imgBlock.setAttribute('idClient', id);
         nameBlock.textContent = name;
         timeBlock.textContent = ` ${time}`;
         messageBlock.textContent = msg;
@@ -91,8 +94,8 @@ function Init() {
         console.log('socket=', socket);
         button.addEventListener('click', addMessage);
         // input.addEventListener('change', addMessage);
-        socket.on('chat message', (foto, name, time, msg) => {
-            renderMessage(foto, name, time, msg);
+        socket.on('chat message', (id, foto, name, time, msg) => {
+            renderMessage(id, foto, name, time, msg);
             /* let message = document.querySelector('.block-right-top');
             let div = document.createElement('div');
             div.classList.add('block-right-message-bottom-text');
@@ -140,37 +143,109 @@ function Init() {
     }
 
     function formFoto() {
+        let formLoadFoto = document.querySelector('.form-loadFoto');
         let buttonCancel = document.querySelector('.form-loadFoto-inner-button-cancel');
         let buttonLoad = document.querySelector('.form-loadFoto-inner-button-load');
         let placeDrop = document.querySelector('.form-loadFoto-inner-placeDrop');
+        let placeDropFoto = document.querySelector('.form-loadFoto-inner-placeDrop-foto');
+        let placeDropText = document.querySelector('.form-loadFoto-inner-placeDrop-text');
 
         buttonCancel.addEventListener('click', e => {
             e.preventDefault();
-            let formLoadFoto = document.querySelector('.form-loadFoto');
-            let placeDropFoto = document.querySelector('.form-loadFoto-inner-placeDrop-foto');
-
             formLoadFoto.classList.add('hidden');
-            placeDropFoto.src = '';                
         });
 
         buttonLoad.addEventListener('click', e => {
             e.preventDefault();
+
+            if (placeDropFoto.src) {
+                socket.emit('load foto', placeDropFoto.src);
+                formLoadFoto.classList.add('hidden');
+            } else {
+                alert('Вы не перетащили изображение для загрузки!');
+            }
 
 
         });
 
         placeDrop.addEventListener('click', e => {
             e.preventDefault();
+        });
 
+        document.addEventListener('click', e => {
+            e.preventDefault();
+            console.log('e.target=', e.target);
 
+        });
 
-        })
+        placeDrop.addEventListener('drop', (e) => {
+            e.preventDefault();
+            console.log('e.dataTransfer333=', e.dataTransfer);
+            const dt = e.dataTransfer;
 
+            if (dt.files && dt.files.length) {
+                const [file] = dt.files;
+                const reader = new FileReader();
 
+                console.log('file=', file);
 
+                if (file.size > 512 * 1024 || !(file.type === 'image/jpeg' || file.type === 'image/jpg')) {
+                    alert('Можно загружать только JPG-файлы до 512кб');
+                } else {
 
+                    reader.readAsDataURL(file);
+                    reader.addEventListener('load', () => {
+                        console.log('reader.result=', reader.result);
+                        // placeDropFoto.src = `url(${reader.result})`
+                        placeDropText.classList.add('hidden');
+                        placeDropFoto.src = `${reader.result}`
 
+                        console.log('placeDropFoto.src=', placeDropFoto.src);
+                    });
+                }
+
+                // fetch('/foo', { method: 'POST', body: fd });
+            }
+
+        });
+
+        document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+        });
     }
+
+    function updateFoto() {           
+
+        socket.on('update foto', (id, foto) => {
+            let avatarFoto = document.querySelector('.block-avatar-foto');
+            let imgBlocks = document.querySelectorAll('.block-right-message-foto');
+
+            console.log('socket.id=', socket.id);
+            console.log('id=', id);
+            console.log('foto=', foto);
+            if (socket.id === id) {
+                avatarFoto.src = foto;
+            }
+            for (let i = 0; i < imgBlocks.length; i++) {
+                console.log('imgBlocks=', imgBlocks);
+                // console.log('imgBlocks[i].getAttribute(idClient)=', imgBlocks[i].getAttribute(idClient));
+
+                if (imgBlocks[i].hasAttribute('idClient')) {
+                    if (imgBlocks[i].getAttribute('idClient') === id) {
+                        imgBlocks[i].src = foto;
+                    }
+
+                } 
+            }
+
+        });
+    }
+
+    // io.emit('update foto', socket.id, fotoSrc);
 
 
 
@@ -180,6 +255,7 @@ function Init() {
     countParticipants();
     fotoLoad();
     formFoto();
+    updateFoto();
 }
 
 export {
