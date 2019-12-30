@@ -5,12 +5,13 @@ let persons = {};
 let allClients = [];
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index1.html');
+  res.sendFile(__dirname + '/dist/index.html');
 });
 
 io.on('connection', function(socket){
   console.log('a user connected');
-  socket.on('authorization', function(person){
+  socket.on('authorization', function(person){    
+    console.log('authorization from socket.id=', socket.id);
 
     if (persons[person.login]) {
 
@@ -23,7 +24,7 @@ io.on('connection', function(socket){
         persons[person.login].name = person.name;
         console.log('persons[person.login].id=', persons[person.login].id);
         persons[person.login].oldId = persons[person.login].id;
-        persons[person.login].Id = person.id;
+        persons[person.login].id = person.id;
         let id = person.id;
         let oldId = persons[person.login].oldId;
         let foto = persons[person.login].foto;
@@ -46,6 +47,7 @@ io.on('connection', function(socket){
       };
       console.log('person.id=', person.id);
     }
+    console.log('personsAfter persons[person.login] name and id=', persons[person.login].name, persons[person.login].id);
 
     allClients.push(person.name);
     io.emit('plus', allClients);
@@ -78,6 +80,7 @@ io.on('connection', function(socket){
   
 
   socket.on('chat message', function(id, time, msg) {
+    console.log('chat message from socket.id=', socket.id, id);
     let foto;
     let name;
     for (let some in persons) {
@@ -96,10 +99,6 @@ io.on('connection', function(socket){
           msg: msg
         });
       }
-      // console.log('persons[some].historyMessage[0].id=', persons[some].historyMessage[0].id);
-      // console.log('persons[some].historyMessage[0].name=', persons[some].historyMessage[0].name);
-      // console.log('persons[some].historyMessage[0].time=', persons[some].historyMessage[0].time);
-      // console.log('persons[some].historyMessage[0].msg=', persons[some].historyMessage[0].msg);
     }
 
     console.log('on chat message id=', id);
@@ -112,6 +111,6 @@ io.on('connection', function(socket){
 
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(8080, function(){
+  console.log('listening on *:8080');
 });

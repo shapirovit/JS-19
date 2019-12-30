@@ -24,7 +24,8 @@ function Init() {
                     login: login.value,
                     name: name.value,
                     id: socket.id,
-                    foto: 'http://www.techportal.ru/upload/nophoto.jpg'
+                    foto: 'http://www.techportal.ru/upload/nophoto.jpg',
+                    online: true
                 }
                 socket.emit('authorization', person);
                 formBlock.classList.add('hidden');
@@ -44,10 +45,14 @@ function Init() {
         let input = document.querySelector('.form-message-input');
         let date = new Date();
         let printTime = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
-        console.log('input.value=', input.value);                
-        socket.emit('chat message', /* socket.id, */ printTime, input.value);
-        input.value = '';
-        /* return false; */
+        console.log('input.value=', input.value);
+        if (input.value === '') {
+            alert('Введите сообщение!')
+        } else {
+            socket.emit('chat message', socket.id, printTime, input.value);
+            input.value = '';
+            /* return false; */
+        }            
     }
 
     function renderMessage(id, foto, name, time, msg) {
@@ -73,7 +78,7 @@ function Init() {
         imgBlock.src = foto;
         imgBlock.setAttribute('idClient', id);
         nameBlock.textContent = name;
-        timeBlock.textContent = ` ${time}`;
+        timeBlock.textContent = time;
         messageBlock.textContent = msg;
 
         fotoblock.append(imgBlock);
@@ -95,13 +100,11 @@ function Init() {
         button.addEventListener('click', addMessage);
         // input.addEventListener('change', addMessage);
         socket.on('chat message', (id, foto, name, time, msg) => {
+            console.log('chat message on id=', id);
+            console.log('chat message on name=', name);
+            console.log('chat message on time=', time);
+            console.log('chat message on msg=', msg);
             renderMessage(id, foto, name, time, msg);
-            /* let message = document.querySelector('.block-right-top');
-            let div = document.createElement('div');
-            div.classList.add('block-right-message-bottom-text');
-            div.textContent = msg;
-            message.append(div);
-            console.log('socket=', socket); */
         });
     };
 
@@ -158,13 +161,12 @@ function Init() {
         buttonLoad.addEventListener('click', e => {
             e.preventDefault();
 
-            if (placeDropFoto.src) {
-                socket.emit('load foto', placeDropFoto.src);
-                formLoadFoto.classList.add('hidden');
+            if (placeDropFoto.src === "http://localhost:3000/") {
+                alert('Вы не перетащили изображение для загрузки!');                    
             } else {
-                alert('Вы не перетащили изображение для загрузки!');
+                socket.emit('load foto', socket.id, placeDropFoto.src);
+                formLoadFoto.classList.add('hidden');
             }
-
 
         });
 
@@ -174,20 +176,16 @@ function Init() {
 
         document.addEventListener('click', e => {
             e.preventDefault();
-            console.log('e.target=', e.target);
 
         });
 
         placeDrop.addEventListener('drop', (e) => {
             e.preventDefault();
-            console.log('e.dataTransfer333=', e.dataTransfer);
             const dt = e.dataTransfer;
 
             if (dt.files && dt.files.length) {
                 const [file] = dt.files;
                 const reader = new FileReader();
-
-                console.log('file=', file);
 
                 if (file.size > 512 * 1024 || !(file.type === 'image/jpeg' || file.type === 'image/jpg')) {
                     alert('Можно загружать только JPG-файлы до 512кб');
@@ -195,16 +193,11 @@ function Init() {
 
                     reader.readAsDataURL(file);
                     reader.addEventListener('load', () => {
-                        console.log('reader.result=', reader.result);
                         // placeDropFoto.src = `url(${reader.result})`
                         placeDropText.classList.add('hidden');
-                        placeDropFoto.src = `${reader.result}`
-
-                        console.log('placeDropFoto.src=', placeDropFoto.src);
+                        placeDropFoto.src = `${reader.result}`;
                     });
                 }
-
-                // fetch('/foo', { method: 'POST', body: fd });
             }
 
         });
@@ -224,17 +217,17 @@ function Init() {
             let avatarFoto = document.querySelector('.block-avatar-foto');
             let imgBlocks = document.querySelectorAll('.block-right-message-foto');
 
-            console.log('socket.id=', socket.id);
-            console.log('id=', id);
-            console.log('foto=', foto);
+            console.log('update foto socket.id=', socket.id);
+            console.log('update foto id=', id);
+            console.log('update foto foto=', foto);
             if (socket.id === id) {
                 avatarFoto.src = foto;
             }
-            for (let i = 0; i < imgBlocks.length; i++) {
-                console.log('imgBlocks=', imgBlocks);
+            for (let i = 0; i < imgBlocks.length; i++) {                    
                 // console.log('imgBlocks[i].getAttribute(idClient)=', imgBlocks[i].getAttribute(idClient));
 
                 if (imgBlocks[i].hasAttribute('idClient')) {
+                    console.log('update foto imgBlocks[i] with "idClient"=', imgBlocks[i]);
                     if (imgBlocks[i].getAttribute('idClient') === id) {
                         imgBlocks[i].src = foto;
                     }
@@ -245,10 +238,54 @@ function Init() {
         });
     }
 
-    // io.emit('update foto', socket.id, fotoSrc);
+    function historyMessage() {
+        socket.on('history', (id, msgArr) => {
+            if (socket.id === id) {
+                for (let i = 0; i < msgArr.length; i++) {
+                    let id = msgArr[i].id;
+                    let foto = msgArr[i].foto;
+                    let name = msgArr[i].name;
+                    let time = msgArr[i].time;
+                    let msg = msgArr[i].msg;
+                    renderMessage(id, foto, name, time, msg);
+                }
+            }
+        });
+    }
 
+    function updateData() {
+        socket.on('update data', (id, oldId, name, oldName, foto) => {
+            let avatarFoto = document.querySelector('.block-avatar-foto');
+            let placeDropFoto = document.querySelector('.form-loadFoto-inner-placeDrop-foto');
+            let imgBlocks = document.querySelectorAll('.block-right-message-foto');
+            let topName = document.querySelectorAll('.block-right-message-top-name');
 
+            
 
+            if (socket.id === id) {
+                avatarFoto.src = foto;
+                placeDropFoto.src = foto;
+            }
+
+            for (let i = 0; i < imgBlocks.length; i++) {
+
+                if (imgBlocks[i].hasAttribute('idClient')) {
+                    if (imgBlocks[i].getAttribute('idClient') === oldId) {
+                        console.log('imgBlocks[i]Before=', imgBlocks[i]);
+                        console.log('topName[i]Before=', topName[i]);
+                        console.log('oldId=', oldId);
+                        console.log('id=', id);
+                        imgBlocks[i].setAttribute('idClient', id);
+                        console.log('imgBlocks[i]After=', imgBlocks[i]);
+                        topName[i].textContent = name;
+                        console.log('topName[i]After=', topName[i]);
+                        imgBlocks[i].src = foto;
+                    }
+
+                } 
+            }                
+        });
+    }
     
     authorization();
     submit();
@@ -256,6 +293,8 @@ function Init() {
     fotoLoad();
     formFoto();
     updateFoto();
+    historyMessage();
+    updateData();
 }
 
 export {

@@ -396,38 +396,6 @@
                 </div>
             </form>
     
-<!--             <div class="block-right-message hidden">
-                <div class="block-right-message-fotoblock">
-                    <img src="" class="block-right-message-foto">
-                </div>
-    
-                <div class="block-right-message-top">
-                    <div class="block-right-message-top-name">Иван Петров</div>
-                    <time class="block-right-message-top-time">13:42</time>
-                </div>
-    
-                <div class="block-right-message-bottom">
-                    <div class="block-right-message-bottom-text">Привет!</div>
-                </div>
-    
-            </div> -->
-    
-<!--             <div class="block-right-message hidden">
-                <div class="block-right-message-fotoblock">
-                    <img src="" class="block-right-message-foto">
-                </div>
-    
-                <div class="block-right-message-top">
-                    <div class="block-right-message-top-name">Иван Петров</div>
-                    <time class="block-right-message-top-time">13:42</time>
-                </div>
-    
-                <div class="block-right-message-bottom">
-                    <div class="block-right-message-bottom-text">И тебе привет!</div>
-                </div>
-    
-            </div> -->
-    
         </div>
         
         <div class="block-right-bottom hidden">
@@ -540,12 +508,6 @@
                 console.log('chat message on time=', time);
                 console.log('chat message on msg=', msg);
                 renderMessage(id, foto, name, time, msg);
-                /* let message = document.querySelector('.block-right-top');
-                let div = document.createElement('div');
-                div.classList.add('block-right-message-bottom-text');
-                div.textContent = msg;
-                message.append(div);
-                console.log('socket=', socket); */
             });
         };
 
@@ -602,15 +564,12 @@
             buttonLoad.addEventListener('click', e => {
                 e.preventDefault();
 
-                console.log('placeDropFoto.src=', placeDropFoto.src);
-
                 if (placeDropFoto.src === "http://localhost:3000/") {
                     alert('Вы не перетащили изображение для загрузки!');                    
                 } else {
                     socket.emit('load foto', socket.id, placeDropFoto.src);
                     formLoadFoto.classList.add('hidden');
                 }
-
 
             });
 
@@ -620,20 +579,16 @@
 
             document.addEventListener('click', e => {
                 e.preventDefault();
-                console.log('e.target=', e.target);
 
             });
 
             placeDrop.addEventListener('drop', (e) => {
                 e.preventDefault();
-                console.log('e.dataTransfer333=', e.dataTransfer);
                 const dt = e.dataTransfer;
 
                 if (dt.files && dt.files.length) {
                     const [file] = dt.files;
                     const reader = new FileReader();
-
-                    console.log('file=', file);
 
                     if (file.size > 512 * 1024 || !(file.type === 'image/jpeg' || file.type === 'image/jpg')) {
                         alert('Можно загружать только JPG-файлы до 512кб');
@@ -641,16 +596,11 @@
 
                         reader.readAsDataURL(file);
                         reader.addEventListener('load', () => {
-                            console.log('reader.result=', reader.result);
                             // placeDropFoto.src = `url(${reader.result})`
                             placeDropText.classList.add('hidden');
-                            placeDropFoto.src = `${reader.result}`
-
-                            console.log('placeDropFoto.src=', placeDropFoto.src);
+                            placeDropFoto.src = `${reader.result}`;
                         });
                     }
-
-                    // fetch('/foo', { method: 'POST', body: fd });
                 }
 
             });
@@ -676,11 +626,11 @@
                 if (socket.id === id) {
                     avatarFoto.src = foto;
                 }
-                for (let i = 0; i < imgBlocks.length; i++) {
-                    console.log('update foto imgBlocks=', imgBlocks);
+                for (let i = 0; i < imgBlocks.length; i++) {                    
                     // console.log('imgBlocks[i].getAttribute(idClient)=', imgBlocks[i].getAttribute(idClient));
 
                     if (imgBlocks[i].hasAttribute('idClient')) {
+                        console.log('update foto imgBlocks[i] with "idClient"=', imgBlocks[i]);
                         if (imgBlocks[i].getAttribute('idClient') === id) {
                             imgBlocks[i].src = foto;
                         }
@@ -739,12 +689,6 @@
                 }                
             });
         }
-
-
-        // io.emit('update data', id, oldId, name, oldName);
-
-
-
         
         authorization();
         submit();
@@ -758,116 +702,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-/* <!-- ///////////////////////////////////////////// --> */
-
-
-/* <!-- <!doctype html>
-<html>
-  <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-        function submit() {
-            var socket = io();
-            let input = document.querySelector('#m');
-            let button = document.querySelector('button');
-            button.addEventListener('click', e => {
-                e.preventDefault();
-                console.log('input.value=', input.value);
-                socket.emit('chat message', input.value);
-                input.value = '';
-                return false;
-            });
-            // socket.on('chat message', msg => {
-            //     let message = document.querySelector('#message');
-            //     let li = document.createElement('li');
-            //     li.textContent = msg;
-            //     message.append(li);
-            // });
-
-            socket.on('chat message', function(msg){
-                $('#messages').append($('<li>').text(msg));
-            });
-        };
-        submit();
-
-        // $(function () {
-        //     var socket = io();
-        //     $('form').submit(function(e){
-        //     e.preventDefault(); // prevents page reloading
-        //     socket.emit('chat message', $('#m').val());
-        //     $('#m').val('');
-        //     return false;
-        //     });
-        // });
-    </script>
-  </body>
-</html> -->
-
-<!-- <!doctype html>
-<html>
-  <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>    
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
-    <script>
-        $(function () {
-            var socket = io();
-            $('form').submit(function(e){
-            e.preventDefault(); // prevents page reloading
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
-            return false;
-            });
-            socket.on('chat message', function(msg){
-            $('#messages').append($('<li>').text(msg));
-            });
-        });
-    </script>
-  </body>
-</html> --> */
