@@ -80,12 +80,10 @@ io.on('connection', function(socket){
   socket.on('chat message', function(id, time, msg) {
     let foto;
     let name;
-    console.log('id in message=', id);
     for (let some in persons) {
       if (persons[some].id === id) {
         foto = persons[some].foto;
         name = persons[some].name;
-        console.log('name in message=', name);
       }
     }
     for (let some in persons) {
@@ -98,11 +96,16 @@ io.on('connection', function(socket){
           msg: msg
         });
       }
-      console.log('persons[some].historyMessage[0].id=', persons[some].historyMessage[0].id);
-      console.log('persons[some].historyMessage[0].name=', persons[some].historyMessage[0].name);
-      console.log('persons[some].historyMessage[0].time=', persons[some].historyMessage[0].time);
-      console.log('persons[some].historyMessage[0].msg=', persons[some].historyMessage[0].msg);
+      // console.log('persons[some].historyMessage[0].id=', persons[some].historyMessage[0].id);
+      // console.log('persons[some].historyMessage[0].name=', persons[some].historyMessage[0].name);
+      // console.log('persons[some].historyMessage[0].time=', persons[some].historyMessage[0].time);
+      // console.log('persons[some].historyMessage[0].msg=', persons[some].historyMessage[0].msg);
     }
+
+    console.log('on chat message id=', id);
+    console.log('on chat message name=', name);
+    console.log('on chat message time=', time);
+    console.log('on chat message msg=', msg);
     
     io.emit('chat message', id, foto, name, time, msg);
   });
