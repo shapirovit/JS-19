@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- <link rel="stylesheet" href="main1.css"> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="index1.js" type="text/javascript"></script> -->
+    <title>Socket Chat</title>
+    <style>
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-button {  height: 0px; }
+        ::-webkit-scrollbar-track-piece { background-color: rgb(204, 255, 199);}
+        ::-webkit-scrollbar-thumb { height: 50px; background-color: #666; border-radius: 3px;}
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .block-left {
+            width: 25%;
+            height: 100%;
+            overflow: auto;
+            float:left;
+            background-color: #ff8563;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .block-right {
+            width: 75%;
+            height: 100%;
+            background-color: rgb(204, 255, 199);
+            overflow: auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .block-right-top {
+            height: 90%;
+            overflow-y: scroll;
+            margin-top: 20px;
+            position: relative;
+        }
+
+
+
+        .form-block {
+            width: 520px;
+            height: 240px;
+            background-color: rgb(214, 217, 219);
+            border-radius: 10px;
+            margin-left: 20%;
+            position: relative;
+        }
+
+        .form-block-text {
+            color: #555;
+            font-weight: 500;
+            padding: 15px 5px 0px 15px;
+        }
+
+        .form-block-inner {
+            width: 500px;
+            height: 160px;
+            background-color: white;
+            border-radius: 10px;
+            position: relative;
+            left: 10px;
+            padding-top: 15px;
+        }
+
+        .form-block-input {
+            background-color: #fff;
+            border: 1px solid rgb(196, 196, 196);
+            line-height: 34px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            margin: 5px 0px 5px 15px ;
+            color: #282828;
+            font-size: 15px;
+            font-weight: 300;
+            display: block;
+            width: 95%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .form-block-button {
+            width: 87px;
+            height: 30px;
+            background-color: #ff8563;
+            border-radius: 10px;
+            color: white;
+            font-size: 12px;
+            font-weight: 300;
+            position: absolute;
+            right: 3%;
+            display: block;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        .block-right-bottom {
+            /* background-color: white; */
+            background-color: rgb(204, 255, 199);
+            position: relative;
+            border-radius: 10px;
+        }
+
+        .form-message-input {
+            background-color: #fff;
+            border: 1px solid rgb(196, 196, 196);
+            line-height: 34px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            margin: 5px 0px 5px 15px ;
+            color: #282828;
+            font-size: 15px;
+            font-weight: 300;
+            display: inline-block;
+            width: 80%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .form-message-button {
+            width: 15%;
+            min-width: 120px;
+            height: 38px;
+            background-color: #ff8563;
+            border-radius: 10px;
+            color: white;
+            font-size: 12px;
+            font-weight: 300;
+            display: inline-block;
+            margin: 5px 5px 5px 20px;
+            box-sizing: border-box;
+        }
+
+
+        .block-avatar {
+            height: 70px;
+            position: relative;
+        }
+
+        .block-avatar-foto-choice {
+            width: 70px;
+            height: 70px;
+            overflow: hidden;
+            border-radius: 50%;
+            position: relative;
+            display: inline-block;
+        }
+
+        .block-avatar-foto {
+            width: auto;
+            height: 100%;
+            margin: 0 auto;
+            position: absolute;
+            left: -25%;
+        }
+
+        .block-avatar-name {
+            font-size: 20px;
+            font-weight: 900;
+            display: inline-block;
+            position: absolute;
+            padding-left: 15px;
+            color: white;
+        }
+
+        .block-participants {
+            height: 80%;
+        }
+
+        .block-participants-text-count {
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 20px 5px -10px 0px;
+            color: white;
+        }
+
+        .block-participants-text-person {
+            font-size: 16px;
+            margin-left: 20px;
+            color: white;
+        }
+
+
+        /* Блок добавления комментариев */
+
+        .block-right-message {
+            max-width: 80%;
+            position: relative;
+            padding: 10px;
+        }
+
+        .block-right-message-fotoblock {
+            width: 70px;
+            height: 70px;
+            overflow: hidden;
+            border-radius: 50%;
+            position: relative;
+            display: inline-block;
+        }
+
+        .block-right-message-foto {
+            width: auto;
+            height: 100%;
+            margin: 0 auto;
+            position: absolute;
+            left: -25%;
+        }
+
+        .block-right-message-top {
+            position: absolute;
+            display: inline-block;
+            margin-top: 10px;
+            margin-left: 5px;
+        }
+
+        .block-right-message-top-name {
+            font-size: 16px;
+            font-weight: 900;
+            display: inline-block;
+        }
+
+        .block-right-message-top-time {
+            font-size: 16px;
+            color: grey;
+            display: inline-block;
+        }
+
+        .block-right-message-bottom {
+            display: inline-block;
+            position: absolute;
+            margin-top: -10px;
+            margin-left: 5px;
+        }
+
+        .block-right-message-bottom-text {
+            /* font-size: 16px; */
+            display: inline-block;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        /* Окно загрузки фото.
+        ...
+        4. Область перемещения фото
+        5. Кнопка "Отмена"
+        6. Кнопка "Загрузить"
+        */
+
+        .form-loadFoto {
+            width: 360px;
+            height: 350px;
+            background-color: rgb(214, 217, 219);
+            border-radius: 10px;
+            margin-left: 20%;
+            position: absolute;
+            top: 10px;
+            z-index: 10;
+
+        }
+
+        .form-loadFoto-text {
+            color: #555;
+            font-weight: 500;
+            padding: 0px 5px 0px 15px;
+        }
+
+        .form-loadFoto-inner {
+            width: 340px;
+            height: 260px;
+            background-color: white;
+            border-radius: 10px;
+            position: relative;
+            left: 10px;
+            padding-top: 15px;
+        }
+
+        .form-loadFoto-inner-placeDrop {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            border: dashed 2px grey;
+            border-radius: 20%;
+            margin: auto;
+            position: relative;
+            display: block;
+        }
+
+        .form-loadFoto-inner-placeDrop-foto {
+            width: auto;
+            height: 100%;
+            margin: 0 auto;
+            position: absolute;
+            left: -25%;
+            /* display: none; */
+        }
+
+        .form-loadFoto-inner-placeDrop-text {
+            margin: auto;
+            font-size: 18px;
+            font-weight: 900;
+            position: absolute;
+            top: 45%;
+            margin-left: 7px;
+        }
+
+
+        .form-loadFoto-inner-button-cancel {
+            width: 87px;
+            height: 30px;
+            background-color: #ff8563;
+            border-radius: 10px;
+            color: white;
+            font-size: 12px;
+            font-weight: 300;
+            position: absolute;
+            right: 30%;
+            bottom: 5%;
+            display: inline-block;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        .form-loadFoto-inner-button-load {
+            width: 87px;
+            height: 30px;
+            background-color: #ff8563;
+            border-radius: 10px;
+            color: white;
+            font-size: 12px;
+            font-weight: 300;
+            position: absolute;
+            right: 3%;
+            bottom: 5%;
+            display: inline-block;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="block-left">
+        <div class="block-avatar hidden">
+            <!-- <a href="" class="block-avatar-foto-choice"><img src="../img/nophoto.jpg" class="block-avatar-foto"></a> -->
+            <a href="" class="block-avatar-foto-choice">
+                <img src="" class="block-avatar-foto">
+            </a>
+    
+            <p class="block-avatar-name">Добро пожаловать!</p>
+        </div>
+        
+        <div class="block-participants hidden">
+            <!-- <p class="block-participants-text-count hidden">Участники</p> -->
+            <!-- <p class="block-participants-text-person">Иван Петрович</p> -->
+        </div>
+    </div>
+    
+    <div class="block-right">
+        <div class="block-right-top">
+            <form class="form-block">
+                <h4 class="form-block-text">Авторизация</h4>
+                <div class="form-block-inner">                
+                    <input id="name" class="form-block-input" type="text" placeholder="ФИО">
+                    <input id="login" class="form-block-input" type="text" placeholder="Ник">
+                    <button class="form-block-button">Войти</button>
+                </div>
+            </form>
+    
+            <form class="form-loadFoto hidden">
+                <h4 class="form-loadFoto-text">Загрузка фото</h4>
+                <div class="form-loadFoto-inner">
+    
+                    <a href="" class="form-loadFoto-inner-placeDrop">
+                        <img src="" class="form-loadFoto-inner-placeDrop-foto">
+                        <div class="form-loadFoto-inner-placeDrop-text">перетащите сюда фото</div>
+                    </a>
+    
+                    <button class="form-loadFoto-inner-button-cancel">Отмена</button>
+                    <button class="form-loadFoto-inner-button-load">Загрузить</button>
+                </div>
+            </form>
+    
+        </div>
+        
+        <div class="block-right-bottom hidden">
+            <input class="form-message-input" type="text" placeholder="Введите сообщение">
+            <button class="form-message-button">Отправить</button>            
+        </div>        
+    </div>
+
+    <script>
+        let socket = io();
+
+        function authorization() {
+            let formBlock = document.querySelector('.form-block');
+            let name = document.querySelector('#name');
+            let login = document.querySelector('#login');
+            let buttonAuth = document.querySelector('.form-block-button');
+            let avatarText = document.querySelector('.block-avatar-name');
+            let blockAvatar = document.querySelector('.block-avatar');
+            let blockAvatarFoto = document.querySelector('.block-avatar-foto');
+            let blockParticipants = document.querySelector('.block-participants');
+            let message = document.querySelector('.block-right-bottom');
+
+            buttonAuth.addEventListener('click', e => {                
+                e.preventDefault();
+                if (name.value === '' || login.value === '') {
+                    alert('Введите своё имя и логин!');
+                } else {
+                    let person = {
+                        login: login.value,
+                        name: name.value,
+                        id: socket.id,
+                        foto: 'http://www.techportal.ru/upload/nophoto.jpg',
+                        online: true
+                    }
+                    socket.emit('authorization', person);
+                    formBlock.classList.add('hidden');
+                    blockAvatar.classList.remove('hidden');
+                    blockParticipants.classList.remove('hidden');
+                    message.classList.remove('hidden');
+                    blockAvatarFoto.src = person.foto;
+                    avatarText.textContent = name.value;
+
+                                      
+                }
+            });
+        }    
+
+        function addMessage(e) {
+            e.preventDefault();
+            let input = document.querySelector('.form-message-input');
+            let date = new Date();
+            let printTime = ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+            console.log('input.value=', input.value);
+            if (input.value === '') {
+                alert('Введите сообщение!')
+            } else {
+                socket.emit('chat message', socket.id, printTime, input.value);
+                input.value = '';
+                /* return false; */
+            }            
+        }
+
+        function renderMessage(id, foto, name, time, msg) {
+            let rightTop = document.querySelector('.block-right-top');
+            let blockMessage = document.createElement('div');
+            let fotoblock = document.createElement('div');
+            let imgBlock = document.createElement('img');
+            let messageTop = document.createElement('div');
+            let nameBlock = document.createElement('div');
+            let timeBlock = document.createElement('time');
+            let messageBottom = document.createElement('div');
+            let messageBlock = document.createElement('div');
+
+            blockMessage.classList.add('block-right-message');
+            fotoblock.classList.add('block-right-message-fotoblock');
+            imgBlock.classList.add('block-right-message-foto');
+            messageTop.classList.add('block-right-message-top');
+            nameBlock.classList.add('block-right-message-top-name');
+            timeBlock.classList.add('block-right-message-top-time');
+            messageBottom.classList.add('block-right-message-bottom');
+            messageBlock.classList.add('block-right-message-bottom-text');
+
+            imgBlock.src = foto;
+            imgBlock.setAttribute('idClient', id);
+            nameBlock.textContent = name;
+            timeBlock.textContent = time;
+            messageBlock.textContent = msg;
+
+            fotoblock.append(imgBlock);
+            messageTop.append(nameBlock);
+            messageTop.append(timeBlock);
+            messageBottom.append(messageBlock);
+
+            blockMessage.append(fotoblock);
+            blockMessage.append(messageTop);
+            blockMessage.append(messageBottom);
+
+            rightTop.append(blockMessage);
+        }
+
+        function submit() {
+            let input = document.querySelector('.form-message-input');
+            let button = document.querySelector('.form-message-button');
+            console.log('socket=', socket);
+            button.addEventListener('click', addMessage);
+            // input.addEventListener('change', addMessage);
+            socket.on('chat message', (id, foto, name, time, msg) => {
+                console.log('chat message on id=', id);
+                console.log('chat message on name=', name);
+                console.log('chat message on time=', time);
+                console.log('chat message on msg=', msg);
+                renderMessage(id, foto, name, time, msg);
+            });
+        };
+
+        function renderParticipants(allClients) {
+            console.log('allClients=', allClients);
+                let blockParticipants = document.querySelector('.block-participants');                
+                let participants = document.createElement('p');
+                blockParticipants.innerHTML = '';
+                blockParticipants.append(participants);
+
+                participants.classList.add('block-participants-text-count');                
+                participants.textContent = `Участники(${allClients.length})`;
+                for (let i = 0; i < allClients.length; i++) {
+                    let clientName = document.createElement('p');
+                    clientName.classList.add('block-participants-text-person');
+                    clientName.textContent = allClients[i];
+                    blockParticipants.append(clientName);                    
+                }
+        };
+
+        function countParticipants() {
+
+            socket.on('plus', allClients => {
+                renderParticipants(allClients);
+            });
+            socket.on('minus', allClients => {                
+                renderParticipants(allClients);
+            });
+        }
+
+        function fotoLoad() {
+            let fotoChoice = document.querySelector('.block-avatar-foto-choice');
+            fotoChoice.addEventListener('click', e => {
+                e.preventDefault();
+                let formLoadFoto = document.querySelector('.form-loadFoto');
+                formLoadFoto.classList.remove('hidden');
+            })
+
+        }
+
+        function formFoto() {
+            let formLoadFoto = document.querySelector('.form-loadFoto');
+            let buttonCancel = document.querySelector('.form-loadFoto-inner-button-cancel');
+            let buttonLoad = document.querySelector('.form-loadFoto-inner-button-load');
+            let placeDrop = document.querySelector('.form-loadFoto-inner-placeDrop');
+            let placeDropFoto = document.querySelector('.form-loadFoto-inner-placeDrop-foto');
+            let placeDropText = document.querySelector('.form-loadFoto-inner-placeDrop-text');
+
+            buttonCancel.addEventListener('click', e => {
+                e.preventDefault();
+                formLoadFoto.classList.add('hidden');
+            });
+
+            buttonLoad.addEventListener('click', e => {
+                e.preventDefault();
+
+                if (placeDropFoto.src === "http://localhost:3000/") {
+                    alert('Вы не перетащили изображение для загрузки!');                    
+                } else {
+                    socket.emit('load foto', socket.id, placeDropFoto.src);
+                    formLoadFoto.classList.add('hidden');
+                }
+
+            });
+
+            placeDrop.addEventListener('click', e => {
+                e.preventDefault();
+            });
+
+            document.addEventListener('click', e => {
+                e.preventDefault();
+
+            });
+
+            placeDrop.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const dt = e.dataTransfer;
+
+                if (dt.files && dt.files.length) {
+                    const [file] = dt.files;
+                    const reader = new FileReader();
+
+                    if (file.size > 512 * 1024 || !(file.type === 'image/jpeg' || file.type === 'image/jpg')) {
+                        alert('Можно загружать только JPG-файлы до 512кб');
+                    } else {
+
+                        reader.readAsDataURL(file);
+                        reader.addEventListener('load', () => {
+                            // placeDropFoto.src = `url(${reader.result})`
+                            placeDropText.classList.add('hidden');
+                            placeDropFoto.src = `${reader.result}`;
+                        });
+                    }
+                }
+
+            });
+
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+            });
+        }
+
+        function updateFoto() {           
+
+            socket.on('update foto', (id, foto) => {
+                let avatarFoto = document.querySelector('.block-avatar-foto');
+                let imgBlocks = document.querySelectorAll('.block-right-message-foto');
+
+                console.log('update foto socket.id=', socket.id);
+                console.log('update foto id=', id);
+                console.log('update foto foto=', foto);
+                if (socket.id === id) {
+                    avatarFoto.src = foto;
+                }
+                for (let i = 0; i < imgBlocks.length; i++) {                    
+                    // console.log('imgBlocks[i].getAttribute(idClient)=', imgBlocks[i].getAttribute(idClient));
+
+                    if (imgBlocks[i].hasAttribute('idClient')) {
+                        console.log('update foto imgBlocks[i] with "idClient"=', imgBlocks[i]);
+                        if (imgBlocks[i].getAttribute('idClient') === id) {
+                            imgBlocks[i].src = foto;
+                        }
+
+                    } 
+                }
+
+            });
+        }
+
+        function historyMessage() {
+            socket.on('history', (id, msgArr) => {
+                if (socket.id === id) {
+                    for (let i = 0; i < msgArr.length; i++) {
+                        let id = msgArr[i].id;
+                        let foto = msgArr[i].foto;
+                        let name = msgArr[i].name;
+                        let time = msgArr[i].time;
+                        let msg = msgArr[i].msg;
+                        renderMessage(id, foto, name, time, msg);
+                    }
+                }
+            });
+        }
+
+        function updateData() {
+            socket.on('update data', (id, oldId, name, oldName, foto) => {
+                let avatarFoto = document.querySelector('.block-avatar-foto');
+                let placeDropFoto = document.querySelector('.form-loadFoto-inner-placeDrop-foto');
+                let imgBlocks = document.querySelectorAll('.block-right-message-foto');
+                let topName = document.querySelectorAll('.block-right-message-top-name');
+
+                
+
+                if (socket.id === id) {
+                    avatarFoto.src = foto;
+                    placeDropFoto.src = foto;
+                }
+
+                for (let i = 0; i < imgBlocks.length; i++) {
+
+                    if (imgBlocks[i].hasAttribute('idClient')) {
+                        if (imgBlocks[i].getAttribute('idClient') === oldId) {
+                            console.log('imgBlocks[i]Before=', imgBlocks[i]);
+                            console.log('topName[i]Before=', topName[i]);
+                            console.log('oldId=', oldId);
+                            console.log('id=', id);
+                            imgBlocks[i].setAttribute('idClient', id);
+                            console.log('imgBlocks[i]After=', imgBlocks[i]);
+                            topName[i].textContent = name;
+                            console.log('topName[i]After=', topName[i]);
+                            imgBlocks[i].src = foto;
+                        }
+
+                    } 
+                }                
+            });
+        }
+        
+        authorization();
+        submit();
+        countParticipants();
+        fotoLoad();
+        formFoto();
+        updateFoto();
+        historyMessage();
+        updateData();
+    
+    </script>
+</body>
+</html>
