@@ -406,8 +406,10 @@
 
     <script>
         let socket = io();
+        let client = {};
 
         function authorization() {
+            console.log('authorization');
             let formBlock = document.querySelector('.form-block');
             let name = document.querySelector('#name');
             let login = document.querySelector('#login');
@@ -427,9 +429,11 @@
                         login: login.value,
                         name: name.value,
                         id: socket.id,
+                        idClient: Date.now(),
                         foto: 'http://www.techportal.ru/upload/nophoto.jpg',
                         online: true
                     }
+                    client = person;
                     socket.emit('authorization', person);
                     formBlock.classList.add('hidden');
                     blockAvatar.classList.remove('hidden');
@@ -444,6 +448,7 @@
         }    
 
         function addMessage(e) {
+            console.log('addMessage');
             e.preventDefault();
             let input = document.querySelector('.form-message-input');
             let date = new Date();
@@ -453,12 +458,14 @@
                 alert('Введите сообщение!')
             } else {
                 socket.emit('chat message', socket.id, printTime, input.value);
+                console.log('socket.emit chat message');
                 input.value = '';
                 /* return false; */
             }            
         }
 
-        function renderMessage(id, foto, name, time, msg) {
+        function renderMessage(id, idClient, foto, name, time, msg) {
+            console.log('renderMessage');
             let rightTop = document.querySelector('.block-right-top');
             let blockMessage = document.createElement('div');
             let fotoblock = document.createElement('div');
@@ -479,7 +486,8 @@
             messageBlock.classList.add('block-right-message-bottom-text');
 
             imgBlock.src = foto;
-            imgBlock.setAttribute('idClient', id);
+            imgBlock.setAttribute('idclient', idClient);
+            imgBlock.setAttribute('idsocket', id);
             nameBlock.textContent = name;
             timeBlock.textContent = time;
             messageBlock.textContent = msg;
@@ -497,22 +505,26 @@
         }
 
         function submit() {
+            console.log('submit');
             let input = document.querySelector('.form-message-input');
             let button = document.querySelector('.form-message-button');
             console.log('socket=', socket);
             button.addEventListener('click', addMessage);
             // input.addEventListener('change', addMessage);
-            socket.on('chat message', (id, foto, name, time, msg) => {
+            socket.on('chat message', (id, idClient, foto, name, time, msg) => {
+                console.log('socket.on chat message');
                 console.log('chat message on id=', id);
+                console.log('chat message on idClient=', idClient);
                 console.log('chat message on name=', name);
                 console.log('chat message on time=', time);
                 console.log('chat message on msg=', msg);
-                renderMessage(id, foto, name, time, msg);
+                renderMessage(id, idClient, foto, name, time, msg);
             });
         };
 
         function renderParticipants(allClients) {
-            console.log('allClients=', allClients);
+            console.log('renderParticipants');
+            // console.log('allClients=', allClients);
                 let blockParticipants = document.querySelector('.block-participants');                
                 let participants = document.createElement('p');
                 blockParticipants.innerHTML = '';
@@ -529,6 +541,7 @@
         };
 
         function countParticipants() {
+            console.log('countParticipants');
 
             socket.on('plus', allClients => {
                 renderParticipants(allClients);
@@ -539,6 +552,7 @@
         }
 
         function fotoLoad() {
+            console.log('fotoLoad');
             let fotoChoice = document.querySelector('.block-avatar-foto-choice');
             fotoChoice.addEventListener('click', e => {
                 e.preventDefault();
@@ -549,6 +563,7 @@
         }
 
         function formFoto() {
+            console.log('formFoto');
             let formLoadFoto = document.querySelector('.form-loadFoto');
             let buttonCancel = document.querySelector('.form-loadFoto-inner-button-cancel');
             let buttonLoad = document.querySelector('.form-loadFoto-inner-button-load');
@@ -568,6 +583,7 @@
                     alert('Вы не перетащили изображение для загрузки!');                    
                 } else {
                     socket.emit('load foto', socket.id, placeDropFoto.src);
+                    client.foto = placeDropFoto.src;
                     formLoadFoto.classList.add('hidden');
                 }
 
@@ -614,9 +630,11 @@
             });
         }
 
-        function updateFoto() {           
+        function updateFoto() {
+            console.log('updateFoto');
 
             socket.on('update foto', (id, foto) => {
+                console.log('socket.on update foto');
                 let avatarFoto = document.querySelector('.block-avatar-foto');
                 let imgBlocks = document.querySelectorAll('.block-right-message-foto');
 
@@ -627,11 +645,11 @@
                     avatarFoto.src = foto;
                 }
                 for (let i = 0; i < imgBlocks.length; i++) {                    
-                    // console.log('imgBlocks[i].getAttribute(idClient)=', imgBlocks[i].getAttribute(idClient));
+                    // console.log('imgBlocks[i].getAttribute(idsocket)=', imgBlocks[i].getAttribute(idsocket));
 
-                    if (imgBlocks[i].hasAttribute('idClient')) {
-                        console.log('update foto imgBlocks[i] with "idClient"=', imgBlocks[i]);
-                        if (imgBlocks[i].getAttribute('idClient') === id) {
+                    if (imgBlocks[i].hasAttribute('idsocket')) {
+                        console.log('update foto imgBlocks[i] with "idsocket"=', imgBlocks[i]);
+                        if (imgBlocks[i].getAttribute('idsocket') === id) {
                             imgBlocks[i].src = foto;
                         }
 
@@ -642,55 +660,85 @@
         }
 
         function historyMessage() {
+            console.log('historyMessage');
             socket.on('history', (id, msgArr) => {
+                console.log('socket.on history');
                 if (socket.id === id) {
                     for (let i = 0; i < msgArr.length; i++) {
                         let id = msgArr[i].id;
+                        let idClient = msgArr[i].idClient;
                         let foto = msgArr[i].foto;
                         let name = msgArr[i].name;
                         let time = msgArr[i].time;
                         let msg = msgArr[i].msg;
-                        renderMessage(id, foto, name, time, msg);
+                        renderMessage(id, idClient, foto, name, time, msg);
                     }
                 }
             });
         }
 
         function updateData() {
-            socket.on('update data', (id, oldId, name, oldName, foto) => {
+            console.log('updateData');
+            socket.on('updateData', (id, oldId, idClient, name, oldName, foto) => {
+                console.log('socket.on updateData');
                 let avatarFoto = document.querySelector('.block-avatar-foto');
                 let placeDropFoto = document.querySelector('.form-loadFoto-inner-placeDrop-foto');
                 let imgBlocks = document.querySelectorAll('.block-right-message-foto');
                 let topName = document.querySelectorAll('.block-right-message-top-name');
+                let placeDropText = document.querySelector('.form-loadFoto-inner-placeDrop-text');
 
-                
+                placeDropText.classList.add('hidden');
+
+                client.id = id;
+                client.idClient = idClient;
+                client.name = name;
+                client.foto = foto;
+                console.log('socket.on updateData client=', client);                
 
                 if (socket.id === id) {
                     avatarFoto.src = foto;
                     placeDropFoto.src = foto;
                 }
 
+                console.log('imgBlocks=', imgBlocks);
                 for (let i = 0; i < imgBlocks.length; i++) {
 
-                    if (imgBlocks[i].hasAttribute('idClient')) {
-                        if (imgBlocks[i].getAttribute('idClient') === oldId) {
+                    if (imgBlocks[i].hasAttribute('idclient')) {
+                        console.log('imgBlocks[i].getAttribute("idclient")=', imgBlocks[i].getAttribute('idclient'));
+                        console.log('idClient =', String(idClient));
+                        console.log('imgBlocks[i].getAttribute("idclient") === idClient =', (imgBlocks[i].getAttribute('idclient') === String(idClient)));
+                        if (imgBlocks[i].getAttribute('idclient') === String(idClient)) {
                             console.log('imgBlocks[i]Before=', imgBlocks[i]);
                             console.log('topName[i]Before=', topName[i]);
                             console.log('oldId=', oldId);
                             console.log('id=', id);
-                            imgBlocks[i].setAttribute('idClient', id);
+                            imgBlocks[i].setAttribute('idsocket', id);
                             console.log('imgBlocks[i]After=', imgBlocks[i]);
                             topName[i].textContent = name;
                             console.log('topName[i]After=', topName[i]);
                             imgBlocks[i].src = foto;
                         }
 
-                    } 
+                    }
+
+/*                     if (imgBlocks[i].hasAttribute('idSocket')) {
+                        if (imgBlocks[i].getAttribute('idsocket') === oldId) {
+                            console.log('imgBlocks[i]Before=', imgBlocks[i]);
+                            console.log('topName[i]Before=', topName[i]);
+                            console.log('oldId=', oldId);
+                            console.log('id=', id);
+                            imgBlocks[i].setAttribute('idsocket', id);
+                            console.log('imgBlocks[i]After=', imgBlocks[i]);
+                            topName[i].textContent = name;
+                            console.log('topName[i]After=', topName[i]);
+                            imgBlocks[i].src = foto;
+                        }
+
+                    }  */
                 }                
             });
-        }
+        }        
         
-        authorization();
         submit();
         countParticipants();
         fotoLoad();
@@ -698,6 +746,8 @@
         updateFoto();
         historyMessage();
         updateData();
+        authorization();
+        
     
     </script>
 </body>

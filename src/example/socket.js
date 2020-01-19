@@ -15,8 +15,23 @@ io.on('connection', function(socket){
 
     if (persons[person.login]) {
 
-        if (persons[person.login].historyMessage.length > 0) {                
+        if (persons[person.login].historyMessage.length > 0) {
             let msgArr = persons[person.login].historyMessage;
+
+            for (let i = 0; i < msgArr.length; i++) {
+                for (let some in persons) {
+                    console.log('persons[some].idClient=', persons[some].idClient);
+                    console.log('msgArr[i].idClient=', msgArr[i].idClient);
+                    console.log('persons[some].idClient === msgArr[i].idClient)=', (persons[some].idClient === msgArr[i].idClient));
+                    if (persons[some].idClient === msgArr[i].idClient) {
+                        msgArr[i].foto = persons[some].foto;
+                        msgArr[i].name = persons[some].name;
+                    }
+                }              
+            }
+            persons[person.login].historyMessage = msgArr;
+
+
             io.emit('history', person.id, msgArr );
         }
         
@@ -25,8 +40,10 @@ io.on('connection', function(socket){
         console.log('persons[person.login].id=', persons[person.login].id);
         persons[person.login].oldId = persons[person.login].id;
         persons[person.login].id = person.id;
+        persons[person.login].online = true;
         let id = person.id;
-        let oldId = persons[person.login].oldId;
+        let oldId = persons[person.login].oldId;        
+        let idClient = persons[person.login].idClient;
         let foto = persons[person.login].foto;
         let name = person.name;
         let oldName = persons[person.login].oldName;
@@ -35,12 +52,13 @@ io.on('connection', function(socket){
         console.log('name=', name);
         console.log('oldName=', oldName);
 
-        io.emit('update data', id, oldId, name, oldName, foto);
+        io.emit('updateData', id, oldId, idClient, name, oldName, foto);
 
     } else {
       persons[person.login] = {
         name: person.name,
         id: person.id,
+        idClient: person.idClient,
         foto: person.foto,
         online: person.online,
         historyMessage: []
@@ -80,19 +98,23 @@ io.on('connection', function(socket){
   
 
   socket.on('chat message', function(id, time, msg) {
-    console.log('chat message from socket.id=', socket.id, id);
+    console.log('chat message from socket.id and id=', socket.id, id);
     let foto;
     let name;
+    let idClient;
+
     for (let some in persons) {
       if (persons[some].id === id) {
         foto = persons[some].foto;
         name = persons[some].name;
+        idClient = persons[some].idClient;
       }
     }
     for (let some in persons) {
       if (persons[some].online) {
         persons[some].historyMessage.push({
           id: id,
+          idClient: idClient,
           foto: foto,
           name: name,
           time: time,
@@ -102,11 +124,12 @@ io.on('connection', function(socket){
     }
 
     console.log('on chat message id=', id);
+    console.log('on chat message idClient=', idClient);
     console.log('on chat message name=', name);
     console.log('on chat message time=', time);
     console.log('on chat message msg=', msg);
     
-    io.emit('chat message', id, foto, name, time, msg);
+    io.emit('chat message', id, idClient, foto, name, time, msg);
   });
 
 });
